@@ -104,6 +104,13 @@
     font-weight: 600;
 }
 
+.error-message {
+    color: #ff4d4f;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    margin-bottom: -1rem;
+}
+
 @media (max-width: 768px) {
     .auth__image {
         display: none;
