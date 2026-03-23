@@ -36,13 +36,21 @@
         "nameLabel": "Имя",
         "emailLabel": "Эл. почта",
         "passwordLabel": "Пароль",
+        "passwordRepeatLabel": "Повторите пароль",
         "createAccountButton": "Создать аккаунт",
         "googleButton": "Войти через Google",
         "alreadyHaveAccount": "Уже есть аккаунт?",
         "loginLink": "Войти",
         "registerSuccess": "Аккаунт создан успешно!",
         "registerError": "Ошибка регистрации: ",
-        "checkData": "проверьте данные"
+        "loginError": "Неверный логин или пароль",
+        "checkData": "проверьте данные",
+        "emptyEmail": "Электронная почта не может быть пустой",
+        "invalidEmail": "Неверный формат электронной почты",
+        "emptyPassword": "Пароль не может быть пустым",
+        "passwordsDoNotMatch": "Пароли не совпадают",
+        "passwordTooShort": "Пароль должен быть не менее 6 символов",
+        "emptyName": "Имя не может быть пустым"
     },
     "card": {
         "charHeader": "Характеристики",
@@ -89,5 +97,10 @@
         "favLoading": "Загрузка избранного...",
         "charLoading": "Загрузка характеристик",
         "details": "Посмотреть детали"
+    },
+    "profile": {
+        "email": "Эл. почта",
+        "changeAvatar": "Изменить аватар",
+        "changeUsername": "Изменить Имя"
     }
 }

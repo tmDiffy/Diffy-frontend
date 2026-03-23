@@ -36,13 +36,21 @@
         "nameLabel": "Name",
         "emailLabel": "Email",
         "passwordLabel": "Password",
+        "passwordRepeatLabel": "Repeat password",
         "createAccountButton": "Create account",
         "googleButton": "Sign in with Google",
         "alreadyHaveAccount": "Already have an account?",
         "loginLink": "Sign in",
         "registerSuccess": "Account created successfully!",
         "registerError": "Registration error: ",
-        "checkData": "check your data"
+        "loginError": "Wrong login or password",
+        "checkData": "check your data",
+        "emptyEmail": "Email cannot be empty",
+        "invalidEmail": "Invalid email format",
+        "emptyPassword": "Password cannot be empty",
+        "passwordsDoNotMatch": "Passwords do not match",
+        "passwordTooShort": "Password must be at least 6 characters long",
+        "emptyName": "Name cannot be empty"
     },
     "card": {
         "charHeader": "Characteristics",
@@ -89,5 +97,10 @@
         "favLoading": "Loading favorites...",
         "charLoading": "Loading characteristics",
         "details": "View details"
+    },
+    "profile": {
+        "email": "Email",
+        "changeAvatar": "Change avatar",
+        "changeUsername": "Change name"
     }
 }

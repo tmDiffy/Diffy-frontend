@@ -4,6 +4,7 @@ import { ComparePage } from "../pages/ComparePage/ComparePage";
 import { Login } from "../features/Login/Login";
 import { Register } from "../features/Register/Register";
 import { FavoritesPage } from "../pages/FavouritesPage/FavoritesPage";
+import { ProfilePage } from "../pages/ProfilePage/ProfilePage";
 
 export const AppRoutes = () => {
     return (
@@ -13,6 +14,7 @@ export const AppRoutes = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/favorites" element={<FavoritesPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
         </Routes>
     );
 };
