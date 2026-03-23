@@ -28,9 +28,11 @@ export function ProfilePage() {
                     {t("profile.email")}: {user?.email}
                 </p>
             </div>
+
             <div className="profile-change">
                 <label className="button">
                     {t("profile.changeAvatar")}
+
                     <input
                         type="file"
                         accept="image/*"
@@ -41,8 +43,10 @@ export function ProfilePage() {
 
                 <label className="button">{t("profile.changeUsername")}</label>
 
-                <Link to="страничка с изменением хз либо на этой же сделать">
-                    Изменить пароль
+                {/* страничка с изменением хз либо на этой же сделать */}
+                <Link to="/">
+                    {t("profile.changePassword")}
+                    {/* Изменить пароль */}
                 </Link>
             </div>
         </div>

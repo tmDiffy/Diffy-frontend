@@ -101,6 +101,7 @@
     "profile": {
         "email": "Email",
         "changeAvatar": "Change avatar",
-        "changeUsername": "Change name"
+        "changeUsername": "Change name",
+        "changePassword": "Change password"
     }
 }
