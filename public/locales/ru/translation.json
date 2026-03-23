@@ -101,6 +101,7 @@
     "profile": {
         "email": "Эл. почта",
         "changeAvatar": "Изменить аватар",
-        "changeUsername": "Изменить Имя"
+        "changeUsername": "Изменить Имя",
+        "changePassword": "Изменить пароль"
     }
 }

@@ -22,6 +22,7 @@
 .profile-change {
     display: flex;
     flex-direction: column;
+    gap: 15px;
     background-color: #fbebd8;
     padding: 30px;
     border-radius: 5px;
@@ -30,9 +31,24 @@
     align-items: center;
 }
 
+.profile-change a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.button:hover,
+.profile-change a:hover {
+    color: #1d4a58;
+    text-decoration: underline;
+}
+
 .avatar {
     border: 2px solid #1d4a58;
     height: 150px;
     width: 150px;
     object-fit: cover;
+}
+
+.button {
+    cursor: pointer;
 }
