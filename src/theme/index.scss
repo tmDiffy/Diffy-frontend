@@ -1,0 +1,20 @@
+@use './styles/variables';
+
+@font-face {
+    font-family: "Montserrat";
+    font-weight: 400;
+    src: url("../../assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf");
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: variables.$color-green;
+    color: #4d463e;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}

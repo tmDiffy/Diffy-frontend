@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { authService } from "../../api/services/auth.service";
 import googleIcon from "../../assets/icons/Google.svg";
-import "./Register.css";
+import "./Register.module.scss";
 
 export function Register() {
     const { t } = useTranslation();
@@ -11,6 +11,7 @@ export function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordRepeat, setPasswordRepeat] = useState("");
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -39,20 +40,29 @@ export function Register() {
 
         try {
             // Используем сервис. Ключи объекта должны совпадать с ожиданиями бэкенда
-            await authService.register({
-                username: name,
-                email: email,
-                password: password,
-            });
+            await authService.register(name, email, password);
 
             console.log(t("auth.registerSuccess"));
-            navigate("/login");
+            setIsSuccess(true);
         } catch (error: any) {
             // Наш apiClient уже прокинул текст ошибки в error.message
             const errorMessage = error.message || t("auth.checkData");
             console.error(`${t("auth.registerError")} ${errorMessage}`);
             setError(`${t("auth.registerError")} ${errorMessage}`);
         }
+    }
+
+    if (isSuccess) {
+        return (
+            <main className="reset-container">
+                <div className="reset-content">
+                    <h2>Письмо отправлено!</h2>
+                    <p>
+                        Проверьте вашу почту {email}. Мы отправили туда ссылку.
+                    </p>
+                </div>
+            </main>
+        );
     }
 
     return (

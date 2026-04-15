@@ -50,7 +50,10 @@
         "emptyPassword": "Пароль не может быть пустым",
         "passwordsDoNotMatch": "Пароли не совпадают",
         "passwordTooShort": "Пароль должен быть не менее 6 символов",
-        "emptyName": "Имя не может быть пустым"
+        "emptyName": "Имя не может быть пустым",
+        "auth.loginSuccess": "Вход успешен",
+        "auth.loading": "Вход в систему...",
+        "auth.loginError": "Ошибка входа. Проверьте ваши данные."
     },
     "card": {
         "charHeader": "Характеристики",
@@ -99,9 +102,27 @@
         "details": "Посмотреть детали"
     },
     "profile": {
-        "email": "Эл. почта",
-        "changeAvatar": "Изменить аватар",
-        "changeUsername": "Изменить Имя",
-        "changePassword": "Изменить пароль"
+        "accountInfo": "Данные об аккаунте",
+        "username": "Имя",
+        "oldPassword": "Старый пароль",
+        "newPassword": "Новый пароль",
+        "newPasswordConfirm": "Подтверждение нового пароля",
+        "save": "Сохранить изменения",
+        "logout": "Выйти из аккаунта",
+        "delete": "Удалить аккаунт",
+        "enterUsername": "Введите новое имя",
+        "enterOldPassword": "Введите ваш текущий пароль",
+        "enterNewPassword": "Введите новый пароль",
+        "enterNewPasswordConfirm": "Повторите новый пароль для подтверждения",
+        "usernameChanged": "Имя пользователя успешно изменено",
+        "passwordChanged": "Пароль успешно изменен",
+        "passwordMatchingError": "Пароли не совпадают",
+        "deleteAccount": "Удалить аккаунт",
+        "deleteConfirmTitle": "Подтверждение удаления",
+        "deleteConfirmText": "Вы уверены, что хотите удалить аккаунт? Это действие необратимо.",
+        "deleteSuccess": "Аккаунт успешно удален",
+        "deleteError": "Ошибка при удалении аккаунта. Попробуйте снова.",
+        "cancel": "Отменить",
+        "yesDelete": "Да, удалить"
     }
 }

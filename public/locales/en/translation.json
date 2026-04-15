@@ -50,7 +50,10 @@
         "emptyPassword": "Password cannot be empty",
         "passwordsDoNotMatch": "Passwords do not match",
         "passwordTooShort": "Password must be at least 6 characters long",
-        "emptyName": "Name cannot be empty"
+        "emptyName": "Name cannot be empty",
+        "auth.loginSuccess": "Login successful",
+        "auth.loading": "Logging in...",
+        "auth.loginError": "Login error. Check your data."
     },
     "card": {
         "charHeader": "Characteristics",
@@ -99,9 +102,28 @@
         "details": "View details"
     },
     "profile": {
-        "email": "Email",
-        "changeAvatar": "Change avatar",
-        "changeUsername": "Change name",
-        "changePassword": "Change password"
+        "accountInfo": "Account details",
+        "username": "Name",
+        "oldPassword": "Old password",
+        "newPassword": "New password",
+        "newPasswordConfirm": "New password confirmation",
+        "save": "Save changes",
+        "logout": "Logout",
+        "delete": "Delete account",
+        "enterUsername": "Enter new username",
+        "enterOldPassword": "Enter your current password",
+        "enterNewPassword": "Enter new password to change",
+        "enterNewPasswordConfirm": "Enter new password again to confirm",
+        "usernameChanged": "Username changed successfully",
+        "passwordChanged": "Password changed successfully",
+        "passwordMatchingError": "Passwords do not match",
+        "deleteAccount": "Delete account",
+        "deleteConfirmTitle": "Delete Account Confirmation",
+        "deleteConfirmText": "Are you sure you want to delete your account? This action is irreversible.",
+        "deleteSuccess": "Account deleted successfully",
+        "deleteError": "Error occurred while deleting the account. Please try again.",
+        "cancel": "Cancel",
+        "yesDelete": "Yes, delete"
+
     }
 }

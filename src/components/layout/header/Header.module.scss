@@ -1,0 +1,145 @@
+/* @use '../../../theme/styles/variables' as vars; */
+
+.mainHeader {
+    background-color: #ffe8ce;
+    padding: 0 20px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.headerNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 40px;
+}
+
+.logoLink {
+    flex-shrink: 0;
+}
+
+.navMenu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
+
+.headerLink {
+    color: #1d4a58;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.headerActions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.headerLangButton {
+    flex-shrink: 0;
+    width: 48px;
+    height: 32px;
+    background: #ffe8ce;
+    color: #1d4a58;
+    border: 1px solid;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.actionLink {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    
+    img {
+        width: 32px;
+        height: 32px;
+        transition: transform 0.2s;
+    }
+
+    &:hover img {
+        transform: scale(1.1);
+    }
+}
+
+
+.profileBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.userProfileContainer {
+    flex-shrink: 0;
+    position: relative;
+}
+
+.accountDropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #32525c;
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 200px;
+    z-index: 1000;
+    margin-top: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdownEmail {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 12px;
+    word-break: break-all;
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white !important;
+    text-decoration: none;
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.dropdownIcon {
+    width: 20px;
+    filter: brightness(0) invert(1);
+}
+
+.logoutBtn {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+.logoutIcon {
+    display: flex;
+    align-items: center;
+}

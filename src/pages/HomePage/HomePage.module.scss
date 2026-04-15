@@ -1,0 +1,166 @@
+@use '../../theme/styles/variables' as vars;
+
+.searchBlock {
+    min-height: 90vh;
+    background: no-repeat center/cover url("/images/body-bg.png"); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+
+    /* Вложенность! */
+    input::placeholder {
+        overflow: visible;
+    }
+
+    @media (max-width: 1024px) {
+        input { height: 65px; }
+    }
+}
+
+.searchInputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.compareButtonWrapper {
+}
+
+.mainCompareBtn, .moreBtn {
+    width: 100%;
+    max-width: 200px;
+    height: 55px;
+    border: none;
+    background: #f7e1ca; // Можно вынести в vars!
+    color: #72675b;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 2.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+
+    &:enabled {
+        background-color: #fff0df;
+    }
+    
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.favBtnMain {
+    all: unset;
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s ease;
+    
+    &:hover {
+        transform: scale(1.1);
+        background: none !important;
+    }
+
+    img {
+        width: 45px;
+        height: 45px;
+    }
+
+    @media (max-width: 1024px) {
+        right: 20px;
+    }
+    @media (max-width: 768px) {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+.cardsBg {
+    background: no-repeat center/cover url("/images/cards-bg.png");
+}
+
+.compareResults {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.compareCardsFlex {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.shortProduct1, .shortProduct2, .shortProduct3 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    margin: 10px;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 380px;
+    min-height: 450px;
+    background-size: cover;
+    background-position: center;
+
+    @media (max-width: 1024px) {
+        max-width: 45%;
+    }
+    @media (max-width: 768px) {
+        max-width: 90%;
+        margin: 10px 0;
+    }
+}
+
+.shortProduct1 {
+    background-image: url("/images/short-product1-bg.png");
+    color: white;
+}
+
+.shortProduct2 {
+    background-image: url("/images/short-product2-bg.png");
+    color: vars.$color-green;
+}
+
+.shortProduct3 {
+    background-image: url("/images/short-product1-bg.png");
+    color: white;
+}
+
+.plusIcon {
+
+}
