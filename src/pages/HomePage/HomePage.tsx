@@ -1,6 +1,6 @@
 import styles from "./HomePage.module.scss";
 import Search from "../../features/Compare/Search/Search";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ShortCompareCard from "../../features/Compare/ShortCompareCard/ShortCompareCard";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -12,6 +12,7 @@ import favOff from "../../assets/icons/Favourite_button.svg";
 import favOn from "../../assets/icons/Favourite_button_active.svg";
 import Plus from "../../assets/icons/Plus.svg";
 import CategoriesList from "../../features/Categories/CategoriesList";
+import type { Category } from "../../types/category";
 
 export function HomePage() {
     const { t } = useTranslation();
@@ -23,6 +24,7 @@ export function HomePage() {
 
     const [compareData, setCompareData] = useState<any[] | null>(null);
     const [isFav, setIsFav] = useState(false);
+    const [activeCategory, setActiveCategory] = useState<Category | null>(null);
     const navigate = useNavigate();
 
     const updateProduct = (index: number, id: number, name: string) => {
@@ -69,6 +71,17 @@ export function HomePage() {
         }
     };
 
+    const compareRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (compareData && compareData.length > 0) {
+            compareRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    }, [compareData]);
+
     const handleSaveToFavorites = async () => {
         if (!compareData) return;
 
@@ -83,15 +96,22 @@ export function HomePage() {
         }
     };
 
+    const handleCategorySelect = (category: Category | null) => {
+        setActiveCategory(category);
+        updateProduct(0, 0, "");
+        console.log("Selected category:", category);
+    };
+
     return (
         <main>
             <div className={styles.searchBlock}>
-                <CategoriesList />
+                <CategoriesList onSelect={handleCategorySelect} />
                 <div className={styles.searchContainer}>
                     <div className={styles.searchInputs}>
                         <Search
                             placeholder={t("home.searchPlaceholder1")}
                             value={products[0].name}
+                            category={activeCategory}
                             onChange={(id, name) => updateProduct(0, id, name)}
                         />
 
@@ -103,6 +123,7 @@ export function HomePage() {
                                 <Search
                                     placeholder={t("home.searchPlaceholder2")}
                                     value={products[1].name}
+                                    category={activeCategory}
                                     onChange={(id, name) =>
                                         updateProduct(1, id, name)
                                     }
@@ -118,6 +139,7 @@ export function HomePage() {
                                 <Search
                                     placeholder={t("home.searchPlaceholder3")}
                                     value={products[2].name}
+                                    category={activeCategory}
                                     onChange={(id, name) =>
                                         updateProduct(2, id, name)
                                     }
@@ -141,6 +163,7 @@ export function HomePage() {
             <div className={styles.cardsBg}>
                 {compareData && compareData.length > 0 && (
                     <div
+                        ref={compareRef}
                         className={styles.compareResults}
                         style={{ position: "relative", paddingBottom: "50px" }}
                     >
@@ -156,7 +179,7 @@ export function HomePage() {
                                 <ShortCompareCard
                                     key={index}
                                     data={item}
-                                    bg={styles[`shortProduct${index + 1}`]}
+                                    index={index}
                                 />
                             ))}
                         </div>

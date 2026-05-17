@@ -81,3 +81,30 @@
         background-color: #bad9df; 
     }
 }
+
+// Стили для болванки загрузки
+.skeleton {
+    height: 44px; // Подгони под реальную высоту твоей кнопки
+    background-color: #fce2c9; // Цвет как у неактивной категории
+    cursor: default;
+    color: transparent; // На всякий случай скрываем текст, если он туда попадет
+    animation: pulse 1.5s infinite ease-in-out;
+    
+    // Сбрасываем эффекты наведения для болванки
+    &:hover {
+        opacity: 0.4; // Должно совпадать со стартовой прозрачностью анимации
+    }
+}
+
+// Плавная пульсация прозрачности
+@keyframes pulse {
+    0% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0.4;
+    }
+}

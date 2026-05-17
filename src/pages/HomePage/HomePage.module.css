@@ -69,13 +69,10 @@
 .favBtnMain {
     all: unset;
     position: absolute;
-    top: 20px;
-    right: 50px;
+    top: 70px;
+    right: 0px;
     cursor: pointer;
     z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     transition: transform 0.2s ease;
 }
 .favBtnMain:hover {
@@ -83,8 +80,8 @@
     background: none !important;
 }
 .favBtnMain img {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
 }
 @media (max-width: 1024px) {
     .favBtnMain {
@@ -125,51 +122,4 @@
         flex-direction: column;
         align-items: center;
     }
-}
-
-.shortProduct1,
-.shortProduct2,
-.shortProduct3 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 40px;
-    margin: 10px;
-    border-radius: 4px;
-    width: 100%;
-    max-width: 380px;
-    min-height: 450px;
-    background-size: cover;
-    background-position: center;
-}
-@media (max-width: 1024px) {
-    .shortProduct1,
-    .shortProduct2,
-    .shortProduct3 {
-        max-width: 45%;
-    }
-}
-@media (max-width: 768px) {
-    .shortProduct1,
-    .shortProduct2,
-    .shortProduct3 {
-        max-width: 90%;
-        margin: 10px 0;
-    }
-}
-
-.shortProduct1 {
-    background-image: url("/images/short-product1-bg.png");
-    color: white;
-}
-
-.shortProduct2 {
-    background-image: url("/images/short-product2-bg.png");
-    color: #1d4a58;
-}
-
-.shortProduct3 {
-    background-image: url("/images/short-product1-bg.png");
-    color: white;
 } /*# sourceMappingURL=HomePage.module.css.map */

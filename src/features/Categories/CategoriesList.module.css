@@ -71,4 +71,27 @@
 }
 .categoryBtn.active {
     background-color: #bad9df;
+}
+
+.skeleton {
+    height: 44px;
+    background-color: #fce2c9;
+    cursor: default;
+    color: transparent;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+.skeleton:hover {
+    opacity: 0.4;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0.4;
+    }
 } /*# sourceMappingURL=CategoriesList.module.css.map */

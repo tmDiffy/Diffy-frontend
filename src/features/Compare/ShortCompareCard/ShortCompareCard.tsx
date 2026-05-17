@@ -1,17 +1,20 @@
 import styles from "./ShortCompareCard.module.scss";
-import { type Product } from "../../../types/product"; // Импортируем ваш тип вместо any
+import { type Product } from "../../../types/product";
 
 type Props = {
     data: Product;
-    bg?: string; // Сделал опциональным на всякий случай
+    index?: number; // Делаем полноценно опциональным
 };
 
-export default function ShortCompareCard({ data, bg }: Props) {
+export default function ShortCompareCard({ data, index = 0 }: Props) {
     if (!data) return null;
 
+    const isLightCard = index % 2 !== 0;
+
+    const cardClassName = `${styles.cardBase} ${isLightCard ? styles.themeLight : ""}`;
+
     return (
-        // Склеиваем локальный класс стилей и внешний класс bg (если он передан)
-        <div className={`${styles.card} ${bg || ""}`.trim()}>
+        <div className={cardClassName}>
             <div className={styles.imageWrapper}>
                 {data.img && (
                     <img

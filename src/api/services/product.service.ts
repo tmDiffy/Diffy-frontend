@@ -1,5 +1,6 @@
 import { apiClient } from "../apiClient";
 import { type Product } from "../../types/product";
+import { type Category } from "../../types/category";
 
 export type FavoriteEntry = {
     id: number;
@@ -17,8 +18,12 @@ export type SearchData = {
 export const productService = {
     getAllProducts: () => apiClient.get<Product[]>("/catalog/products/"),
 
-    searchProduct: (name: string) =>
-        apiClient.get<SearchData>(`/catalog/products/?search=${name}`),
+    getAllCategories: () => apiClient.get<Category[]>("/catalog/categories/"),
+
+    searchProduct: (name: string, category: Category | null) =>
+        apiClient.get<SearchData>(
+            `/catalog/products/?category=${category?.name ?? ""}&search=${name}`,
+        ),
 
     compare: (ids: number[]) =>
         apiClient.post<any[]>("/comparison/comparison/", { product_ids: ids }),

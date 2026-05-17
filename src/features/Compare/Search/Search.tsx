@@ -2,14 +2,21 @@ import { useEffect, useState, useRef } from "react";
 import { productService } from "../../../api/services/product.service";
 import { type Product } from "../../../types/product";
 import styles from "./Search.module.scss";
+import type { Category } from "../../../types/category";
 
 type SearchProps = {
     placeholder: string;
     value: string;
+    category: Category | null;
     onChange: (id: number, name: string) => void;
 };
 
-export default function Search({ placeholder, value, onChange }: SearchProps) {
+export default function Search({
+    placeholder,
+    value,
+    category,
+    onChange,
+}: SearchProps) {
     const [results, setResults] = useState<Product[]>([]);
     const [isOpen, setIsOpen] = useState(false);
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -22,7 +29,10 @@ export default function Search({ placeholder, value, onChange }: SearchProps) {
 
         const timeout = setTimeout(async () => {
             try {
-                const data = await productService.searchProduct(value);
+                const data = await productService.searchProduct(
+                    value,
+                    category,
+                );
                 setResults(data.results);
             } catch (e) {
                 console.error(e);

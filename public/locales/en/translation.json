@@ -125,5 +125,8 @@
         "cancel": "Cancel",
         "yesDelete": "Yes, delete"
 
+    },
+    "categories": {
+        "all": "All categories"
     }
 }
