@@ -1,46 +1,15 @@
-.profile-block {
+/* src/pages/ProfilePage/ProfilePage.module.scss */
+
+.profileBlock {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 70vh;
     color: #484037;
-    background: no-repeat center/cover url("../../../public/images/cards-bg.png");
+    background: no-repeat center/cover url("/images/cards-bg.png");
 }
 
-.profile-description {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.profile-change {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff6ec;
-    padding: 30px;
-    border-radius: 10px;
-    margin-block: 50px;
-    width: 30vw;
-    align-items: start;
-}
-.account-info {
-    font-weight: 700;
-    font-size: 20px;
-    margin: 0;
-}
-.user-name {
-    padding: 0;
-    margin: 0;
-    margin-top: 15px;
-    font-size: 40px;
-    font-weight:900;
-}
-.user-email {
-    padding: 0;
-    margin: 0;
-    margin-top: 10px;
-}
-.user-avatar {
+.userAvatar {
     border: 5px solid #fff6ec;
     border-radius: 50%;
     height: 125px;
@@ -52,22 +21,46 @@
     align-items: center;
 }
 
-.name-change, .email-change, .old-password, .new-password {
-    font-size: 17px;
+.avatarText {
+    font-weight: bold;
+    font-size: 50px;
 }
 
-input {
-    width: 100%;
-    padding: 0 15px;
-    height: 45px;
-    border-radius: 5px;
-    border: 1px solid #b1a89d;
-    font-size: 16px;
-    color: #7e776f;
+.userName {
+    padding: 0;
+    margin: 15px 0 0 0;
+    font-size: 40px;
+    font-weight: 900;
 }
 
-input::placeholder {
-    opacity: 50%;
+.userEmail {
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+
+.profileChange {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff6ec;
+    padding: 30px;
+    border-radius: 10px;
+    margin-block: 50px;
+    width: 30vw;
+    align-items: start;
+
+    /* Адаптив, чтобы на мобилках форма не была слишком узкой */
+    @media (max-width: 1024px) {
+        width: 60vw;
+    }
+    @media (max-width: 768px) {
+        width: 90vw;
+    }
+}
+
+.accountInfo {
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0;
 }
 
 .line {
@@ -80,27 +73,85 @@ input::placeholder {
     margin-inline: auto;
 }
 
-.avatar-text {
-    font-weight: bold;
-    font-size: 50px;
+/* Универсальный класс для всех надписей над инпутами */
+.fieldLabel {
+    font-size: 17px;
+    margin-bottom: 5px;
 }
 
-/* Затемнение заднего фона */
-.modal-overlay {
+/* Класс для инпутов (вместо глобального селектора input) */
+.inputField {
+    width: 100%;
+    padding: 0 15px;
+    height: 45px;
+    border-radius: 5px;
+    border: 1px solid #b1a89d;
+    font-size: 16px;
+    color: #7e776f;
+    margin-bottom: 15px;
+
+    &::placeholder {
+        opacity: 0.5;
+    }
+}
+
+/* Обертка для кнопок "Сохранить" и "Удалить" */
+.profileActions {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    margin-top: 10px;
+
+    button {
+        flex: 1;
+        height: 45px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}
+
+/* Стили для кнопки сохранения (взял цвета похожие на главную страницу) */
+.btnSave {
+    background-color: #f7e1ca;
+    color: #72675b;
+    font-weight: 500;
+
+    &:hover:not(:disabled) {
+        background-color: #fff0df;
+    }
+}
+
+.errorText {
+    color: #ff4d4f;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+/* --- Модальное окно --- */
+.modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный */
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Чтобы модалка была поверх всего остального */
+    z-index: 1000;
 }
 
-/* Сама карточка модального окна */
-.modal-content {
+.modalContent {
     background-color: #fff6ec;
     padding: 24px;
     border-radius: 8px;
@@ -108,27 +159,26 @@ input::placeholder {
     max-width: 400px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     text-align: center;
+
+    /* Вложенность SCSS */
+    h3 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    p {
+        color: #666;
+        margin-bottom: 24px;
+    }
 }
 
-.modal-content h3 {
-    margin-top: 0;
-    color: #333;
-}
-
-.modal-content p {
-    color: #666;
-    margin-bottom: 24px;
-}
-
-/* Контейнер для кнопок в модалке */
-.modal-buttons {
+.modalButtons {
     display: flex;
     justify-content: space-between;
     gap: 16px;
 }
 
-/* Стили для кнопок (можно адаптировать под ваш дизайн) */
-.btn-cancel {
+.btnCancel {
     flex: 1;
     background-color: #e0e0e0;
     color: #333;
@@ -136,9 +186,13 @@ input::placeholder {
     padding: 10px;
     border-radius: 4px;
     cursor: pointer;
+
+    &:hover {
+        background-color: #d5d5d5;
+    }
 }
 
-.btn-confirm-delete, .btn-danger {
+.btnDanger {
     flex: 1;
     background-color: #ff4d4f;
     color: white;
@@ -146,8 +200,8 @@ input::placeholder {
     padding: 10px;
     border-radius: 4px;
     cursor: pointer;
-}
 
-.btn-confirm-delete:hover, .btn-danger:hover {
-    background-color: #d9363e;
+    &:hover {
+        background-color: #d9363e;
+    }
 }

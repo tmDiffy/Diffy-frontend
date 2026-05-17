@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useClickOutside } from "../../../hooks/useClickOutside";
@@ -8,7 +8,6 @@ import Logo from "../../../assets/icons/Diffy.svg";
 import Favorites from "../../../assets/icons/Favourite.svg";
 import User from "../../../assets/icons/User.svg";
 
-// Импортируем объект стилей
 import styles from "./Header.module.scss";
 
 export default function Header() {
@@ -17,7 +16,7 @@ export default function Header() {
 
     const { user, logout } = useCurrentUser();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef(null);
 
     useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
 
@@ -47,44 +46,31 @@ export default function Header() {
                     <img src={Logo} alt="Diffy" />
                 </Link>
 
-                <ul className={styles.navMenu}>
-                    <li>
-                        <a href="#gadgets" className={styles.headerLink}>
-                            {t("nav.gadgets")}
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#parts" className={styles.headerLink}>
-                            {t("nav.parts")}
-                        </a>
-                    </li>
-                </ul>
-
-                <div className={styles.headerActions}>
+                {/* Единый блок "пилюля" для действий */}
+                <div className={styles.actionsPill}>
                     <button
                         onClick={toggleLanguage}
-                        className={styles.headerLangButton}
+                        className={styles.langBtn}
+                        title="Change Language"
                     >
                         {i18n.language.toUpperCase()}
                     </button>
 
                     <Link
                         to={user ? "/favorites" : "/login"}
-                        className={styles.actionLink}
+                        className={styles.iconBtn}
                         title={t("nav.favorites")}
                     >
                         <img src={Favorites} alt="Favorites" />
                     </Link>
 
-                    {/* Обрати внимание, добавил styles.userProfileContainer сюда */}
                     <div
                         className={styles.userProfileContainer}
                         ref={dropdownRef}
                     >
-                        {/* Объединяем два класса */}
                         <button
                             onClick={handleUserClick}
-                            className={`${styles.actionLink} ${styles.profileBtn}`}
+                            className={styles.iconBtn}
                         >
                             <img src={User} alt="Profile" />
                         </button>
@@ -108,7 +94,6 @@ export default function Header() {
                                     {t("user.manageAccount")}
                                 </Link>
 
-                                {/* Снова объединяем два класса */}
                                 <button
                                     onClick={onLogoutClick}
                                     className={`${styles.dropdownItem} ${styles.logoutBtn}`}

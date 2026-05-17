@@ -1,15 +1,16 @@
 /* @use '../../../theme/styles/variables' as vars; */
 
 .mainHeader {
-    background-color: #ffe8ce;
-    padding: 0 20px;
-    min-height: 100px;
+    background: transparent; /* Убрали заливку всего хедера */
+    padding: 30px 60px; 
+    min-height: 80px;
     display: flex;
     align-items: center;
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .headerNav {
@@ -17,63 +18,50 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    gap: 40px;
 }
 
 .logoLink {
     flex-shrink: 0;
 }
 
-.navMenu {
+/* Стилизация блока плашки (пилюли) */
+.actionsPill {
     display: flex;
-    list-style: none;
-    gap: 30px;
-    margin: 0;
-    padding: 0;
-
-    @media (max-width: 768px) {
-        display: none;
-    }
+    align-items: center;
+    gap: 20px;
+    background-color: #ffe8ce; /* Цвет переехал сюда */
+    padding: 10px 24px;
+    border-radius: 50px; /* Сильное закругление */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Легкая тень для плашки */
 }
 
-.headerLink {
-    color: #1d4a58;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s ease;
+/* Сбросили старые грубые стили кнопки языка */
+.langBtn {
+    background: transparent;
+    color: #1d4a58; /* Цвет текста под иконки */
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s ease;
 
     &:hover {
-        text-decoration: underline;
+        opacity: 0.7;
     }
 }
 
-.headerActions {
+/* Универсальный класс для кнопок-иконок */
+.iconBtn {
     display: flex;
-    gap: 15px;
     align-items: center;
-    flex-shrink: 0;
-}
-
-.headerLangButton {
-    flex-shrink: 0;
-    width: 48px;
-    height: 32px;
-    background: #ffe8ce;
-    color: #1d4a58;
-    border: 1px solid;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 14px;
+    background: none;
+    border: none;
     cursor: pointer;
-}
-
-.actionLink {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
+    padding: 0;
     
     img {
-        width: 32px;
+        width: 32px; /* Чуть уменьшил, чтобы аккуратно смотрелось в плашке */
         height: 32px;
         transition: transform 0.2s;
     }
@@ -83,30 +71,24 @@
     }
 }
 
-
-.profileBtn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-}
-
 .userProfileContainer {
     flex-shrink: 0;
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
+/* Выпадающее меню остается без изменений */
 .accountDropdown {
     position: absolute;
-    top: 100%;
-    right: 0;
+    top: calc(100% + 20px); /* Отступ от плашки */
+    right:0px;
     background-color: #32525c;
     padding: 15px;
     border-radius: 8px;
     min-width: 200px;
     z-index: 1000;
-    margin-top: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .dropdownEmail {

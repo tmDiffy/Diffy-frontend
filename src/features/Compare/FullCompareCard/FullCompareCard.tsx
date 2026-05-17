@@ -1,10 +1,11 @@
-import "./FullCompareCard.module.scss";
+import styles from "./FullCompareCard.module.scss";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { type Product } from "../../../types/product";
 
-import favOff from "../../../assets/icons/Favourite_button.svg";
-import favOn from "../../../assets/icons/Favourite_button_active.svg";
+// Раскомментируйте, если будете использовать кнопки избранного
+// import favOff from "../../../assets/icons/Favourite_button.svg";
+// import favOn from "../../../assets/icons/Favourite_button_active.svg";
 
 export function FullCompareCard() {
     const { state } = useLocation();
@@ -13,11 +14,7 @@ export function FullCompareCard() {
     const [isFav, setIsFav] = useState(false);
 
     if (!products.length) {
-        return (
-            <p style={{ color: "white", textAlign: "center" }}>
-                Нет данных для сравнения
-            </p>
-        );
+        return <p className={styles.noData}>Нет данных для сравнения</p>;
     }
 
     const getChar = (product: Product, charName: string) => {
@@ -98,74 +95,87 @@ export function FullCompareCard() {
     ];
 
     return (
-        <main className="compare-page">
-            <div className="cards">
-                <div className="description">
-                    {products.map((p, i) => (
-                        <div key={p.id} className={`product product${i + 1}`}>
-                            <div className="card-image-wrapper">
-                                {p.img ? (
-                                    <img
-                                        src={p.img}
-                                        alt={p.name}
-                                        className="card-image"
-                                    />
-                                ) : (
-                                    <div className="image-placeholder" />
-                                )}
+        <main className={styles.comparePage}>
+            {/* Обертка для горизонтального скролла на мобильных */}
+            <div className={styles.scrollWrapper}>
+                <div className={styles.cards}>
+                    <div className={styles.description}>
+                        {products.map((p) => (
+                            <div key={p.id} className={styles.product}>
+                                <div className={styles.cardImageWrapper}>
+                                    {p.img ? (
+                                        <img
+                                            src={p.img}
+                                            alt={p.name}
+                                            className={styles.cardImage}
+                                        />
+                                    ) : (
+                                        <div
+                                            className={styles.imagePlaceholder}
+                                        />
+                                    )}
+                                </div>
+                                <h3>{p.name}</h3>
                             </div>
-                            <p>{p.name}</p>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
 
-                {/* <button className="fav-btn" onClick={() => setIsFav(!isFav)}>
-          <img src={isFav ? favOn : favOff} alt="fav" />
-        </button> */}
-            </div>
+                <div className={styles.full}>
+                    <div className={styles.fullCard}>
+                        {sections.map((section) => (
+                            <div key={section.title} className={styles.section}>
+                                <div className={styles.mainCharHeader}>
+                                    <h2>{section.title}</h2>
+                                </div>
 
-            <div className="full">
-                <div className="full-card">
-                    {sections.map((section) => (
-                        <div key={section.title}>
-                            <div className="main-char-header">
-                                <h2>{section.title}</h2>
-                            </div>
+                                {section.fields.map((field) => {
+                                    const { maxIds, minIds } = getBestWorst(
+                                        products,
+                                        field,
+                                    );
 
-                            {section.fields.map((field) => {
-                                const { maxIds, minIds } = getBestWorst(
-                                    products,
-                                    field,
-                                );
+                                    return (
+                                        <div
+                                            key={field}
+                                            className={styles.charRow}
+                                        >
+                                            <h4 className={styles.charHeader}>
+                                                {field}
+                                            </h4>
+                                            <div className={styles.char}>
+                                                {products.map((p) => {
+                                                    const value = getChar(
+                                                        p,
+                                                        field,
+                                                    );
 
-                                return (
-                                    <div key={field}>
-                                        <h4 className="char-header">{field}</h4>
-                                        <div className="char">
-                                            {products.map((p) => {
-                                                const value = getChar(p, field);
-                                                const className =
-                                                    maxIds.includes(p.id)
-                                                        ? "best"
-                                                        : minIds.includes(p.id)
-                                                          ? "worst"
-                                                          : "";
+                                                    // Собираем классы
+                                                    let valueClass =
+                                                        styles.charValue;
+                                                    if (maxIds.includes(p.id))
+                                                        valueClass += ` ${styles.best}`;
+                                                    if (minIds.includes(p.id))
+                                                        valueClass += ` ${styles.worst}`;
 
-                                                return (
-                                                    <p
-                                                        key={p.id}
-                                                        className={className}
-                                                    >
-                                                        {value}
-                                                    </p>
-                                                );
-                                            })}
+                                                    return (
+                                                        <p
+                                                            key={p.id}
+                                                            className={
+                                                                valueClass
+                                                            }
+                                                        >
+                                                            {value}
+                                                        </p>
+                                                    );
+                                                })}
+                                            </div>
                                         </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    ))}
+                                    );
+                                })}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </main>

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { productService } from "../../../api/services/product.service";
 import { type Product } from "../../../types/product";
-import "./Search.module.scss";
+import styles from "./Search.module.scss";
 
 type SearchProps = {
     placeholder: string;
@@ -58,19 +58,29 @@ export default function Search({ placeholder, value, onChange }: SearchProps) {
     }
 
     return (
-        <div className="search-wrapper" ref={wrapperRef}>
+        <div className={styles.searchWrapper} ref={wrapperRef}>
             <input
+                type="search"
                 placeholder={placeholder}
                 value={value}
                 onChange={handleInputChange}
                 onFocus={() => setIsOpen(true)}
-                className="search-input"
+                className={styles.searchInput}
             />
 
             {isOpen && results.length > 0 && (
-                <ul className="search-dropdown">
+                <ul className={styles.searchDropdown}>
                     {results.map((p) => (
-                        <li key={p.id} onClick={() => handleSelect(p)}>
+                        <li
+                            className={styles.productDropdown}
+                            key={p.id}
+                            onClick={() => handleSelect(p)}
+                        >
+                            <img
+                                className={styles.productImage}
+                                src={p.img ?? undefined}
+                                alt={p.name}
+                            />
                             {p.name}
                         </li>
                     ))}

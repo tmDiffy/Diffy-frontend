@@ -3,6 +3,7 @@ import { AppRoutes } from "./routes/AppRoutes";
 import Header from "./components/layout/header/Header";
 import Footer from "./components/layout/footer/Footer";
 import { ToastContainer } from "react-toastify";
+import "./theme/index.scss";
 
 function App() {
     return (

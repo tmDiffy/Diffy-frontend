@@ -1,70 +1,88 @@
 import { useTranslation } from "react-i18next";
 import { useCurrentUser } from "../../hooks/useCurrentUser";
-import { Link, useNavigate } from "react-router-dom";
-import "./ProfilePage.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { authService } from "../../api/services/auth.service";
 import { toast } from "react-toastify";
-// import { apiClient } from "../../api/apiClient"; // Если не используется, лучше удалить
+import {
+    profileSchema,
+    type ProfileFormValues,
+} from "../../utils/validations/auth.schemas";
+
+// 1. Правильный импорт
+import styles from "./ProfilePage.module.scss";
 
 export function ProfilePage() {
     const { user, logout } = useCurrentUser();
-    const [username, setUsername] = useState(user?.username);
-    const [oldPassword, setOldPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [newPasswordConfirm, setNewPasswordConfirm] = useState("");
-
-    // Состояние для управления модальным окном
+    const { t } = useTranslation();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-    const { t } = useTranslation();
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors, isSubmitting, isDirty },
+    } = useForm<ProfileFormValues>({
+        resolver: zodResolver(profileSchema),
+        defaultValues: {
+            username: user?.username || "",
+            oldPassword: "",
+            newPassword: "",
+            newPasswordConfirm: "",
+        },
+    });
 
-    const handleSaveClick = async () => {
-        let change = false;
+    useEffect(() => {
+        if (user?.username) {
+            reset({
+                username: user.username,
+                oldPassword: "",
+                newPassword: "",
+                newPasswordConfirm: "",
+            });
+        }
+    }, [user, reset]);
+
+    const onSubmit = async (data: ProfileFormValues) => {
+        if (!isDirty) return;
+
+        let isSuccess = false;
 
         try {
-            // Изменение имени
-            if (username && username !== user?.username) {
-                await authService.changeUsername(username);
+            if (data.username && data.username !== user?.username) {
+                await authService.changeUsername(data.username);
                 toast.success(t("profile.usernameChanged"));
-                change = true;
+                isSuccess = true;
             }
 
-            // Изменение пароля
-            if (oldPassword && newPassword && newPasswordConfirm) {
-                if (newPassword !== newPasswordConfirm) {
-                    toast.error(t("profile.passwordMatchingError"));
-                    return;
-                }
-                await authService.changePassword(oldPassword, newPassword);
+            if (data.newPassword && data.oldPassword) {
+                await authService.changePassword(
+                    data.oldPassword,
+                    data.newPassword,
+                );
                 toast.success(t("profile.passwordChanged"));
-                change = true;
+                isSuccess = true;
 
-                setOldPassword("");
-                setNewPassword("");
-                setNewPasswordConfirm("");
-            }
-
-            if (!change) {
-                return;
+                reset({
+                    ...data,
+                    oldPassword: "",
+                    newPassword: "",
+                    newPasswordConfirm: "",
+                });
             }
         } catch (error: any) {
             console.error(error);
             const errorMessage =
-                error.response?.data?.message ||
-                t("profile.errorOccurred") ||
-                "Произошла ошибка";
+                error.response?.data?.message || t("profile.errorOccurred");
             toast.error(errorMessage);
         }
     };
 
-    // Функция для подтверждения удаления
     const confirmDelete = async () => {
         try {
             await authService.deleteProfile();
-            toast.success(
-                t("profile.accountDeleted") || "Аккаунт успешно удален",
-            );
+            toast.success(t("profile.accountDeleted"));
             setShowDeleteModal(false);
             logout();
         } catch (error: any) {
@@ -79,91 +97,115 @@ export function ProfilePage() {
     };
 
     return (
-        <div className="profile-block">
-            {/* ... Верхушка профиля без изменений ... */}
-            <div className="user-avatar">
-                <p className="avatar-text">
-                    {user?.username[0]?.toUpperCase() || "U"}
+        <div className={styles.profileBlock}>
+            <div className={styles.userAvatar}>
+                <p className={styles.avatarText}>
+                    {user?.username?.[0]?.toUpperCase() || "U"}
                 </p>
             </div>
-            <p className="user-name">{user?.username}</p>
-            <p className="user-email">{user?.email}</p>
+            <p className={styles.userName}>{user?.username}</p>
+            <p className={styles.userEmail}>{user?.email}</p>
 
-            <div className="profile-change">
-                <p className="account-info">{t("profile.accountInfo")}</p>
-                <hr className="line" />
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className={styles.profileChange}
+            >
+                <p className={styles.accountInfo}>{t("profile.accountInfo")}</p>
+                <hr className={styles.line} />
 
-                <p className="name-change">{t("profile.username")}</p>
+                {/* Используем универсальный fieldLabel */}
+                <p className={styles.fieldLabel}>{t("profile.username")}</p>
                 <input
                     type="text"
-                    value={username || ""}
+                    className={styles.inputField}
                     placeholder={t("profile.enterUsername")}
-                    onChange={(e) => setUsername(e.target.value)}
+                    {...register("username")}
                 />
-                <hr className="line" />
+                {errors.username && (
+                    <span className={styles.errorText}>
+                        {t(errors.username.message as string)}
+                    </span>
+                )}
+                <hr className={styles.line} />
 
-                <p className="old-password">{t("profile.oldPassword")}</p>
+                <p className={styles.fieldLabel}>{t("profile.oldPassword")}</p>
                 <input
                     type="password"
-                    value={oldPassword}
+                    className={styles.inputField}
                     placeholder={t("profile.enterOldPassword")}
-                    onChange={(e) => setOldPassword(e.target.value)}
+                    {...register("oldPassword")}
                 />
-                <p className="new-password">{t("profile.newPassword")}</p>
+                {errors.oldPassword && (
+                    <span className={styles.errorText}>
+                        {t(errors.oldPassword.message as string)}
+                    </span>
+                )}
+
+                <p className={styles.fieldLabel}>{t("profile.newPassword")}</p>
                 <input
                     type="password"
-                    value={newPassword}
+                    className={styles.inputField}
                     placeholder={t("profile.enterNewPassword")}
-                    onChange={(e) => setNewPassword(e.target.value)}
+                    {...register("newPassword")}
                 />
-                <p className="new-password-confirm">
+                {errors.newPassword && (
+                    <span className={styles.errorText}>
+                        {t(errors.newPassword.message as string)}
+                    </span>
+                )}
+
+                <p className={styles.fieldLabel}>
                     {t("profile.newPasswordConfirm")}
                 </p>
                 <input
                     type="password"
-                    value={newPasswordConfirm}
+                    className={styles.inputField}
                     placeholder={t("profile.enterNewPasswordConfirm")}
-                    onChange={(e) => setNewPasswordConfirm(e.target.value)}
+                    {...register("newPasswordConfirm")}
                 />
-            </div>
+                {errors.newPasswordConfirm && (
+                    <span className={styles.errorText}>
+                        {t(errors.newPasswordConfirm.message as string)}
+                    </span>
+                )}
 
-            {/* Кнопки управления */}
-            <div className="profile-actions">
-                <button onClick={handleSaveClick}>{t("profile.save")}</button>
-                {/* <button onClick={logout}>{t("profile.logout")}</button> */}
+                <div className={styles.profileActions}>
+                    <button
+                        type="submit"
+                        className={styles.btnSave}
+                        disabled={!isDirty || isSubmitting}
+                    >
+                        {isSubmitting ? "..." : t("profile.save")}
+                    </button>
 
-                <button
-                    className="btn-danger"
-                    onClick={() => setShowDeleteModal(true)}
-                >
-                    {t("profile.deleteAccount") || "Удалить аккаунт"}
-                </button>
-            </div>
+                    <button
+                        type="button"
+                        className={styles.btnDanger}
+                        onClick={() => setShowDeleteModal(true)}
+                    >
+                        {t("profile.deleteAccount")}
+                    </button>
+                </div>
+            </form>
 
-            {/* Модальное окно подтверждения */}
+            {/* Модальное окно */}
             {showDeleteModal && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <h3>
-                            {t("profile.deleteConfirmTitle") ||
-                                "Удалить аккаунт?"}
-                        </h3>
-                        <p>
-                            {t("profile.deleteConfirmText") ||
-                                "Вы уверены? Это действие нельзя будет отменить, и все ваши данные будут потеряны."}
-                        </p>
-                        <div className="modal-buttons">
+                <div className={styles.modalOverlay}>
+                    <div className={styles.modalContent}>
+                        <h3>{t("profile.deleteConfirmTitle")}</h3>
+                        <p>{t("profile.deleteConfirmText")}</p>
+                        <div className={styles.modalButtons}>
                             <button
-                                className="btn-cancel"
+                                className={styles.btnCancel}
                                 onClick={() => setShowDeleteModal(false)}
                             >
-                                {t("profile.cancel") || "Отмена"}
+                                {t("profile.cancel")}
                             </button>
                             <button
-                                className="btn-confirm-delete"
+                                className={styles.btnDanger}
                                 onClick={confirmDelete}
                             >
-                                {t("profile.yesDelete") || "Да, удалить"}
+                                {t("profile.yesDelete")}
                             </button>
                         </div>
                     </div>

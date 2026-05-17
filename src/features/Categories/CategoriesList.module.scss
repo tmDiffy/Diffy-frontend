@@ -1,0 +1,83 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px; 
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 35px;
+}
+
+.arrowBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.3); 
+    color: #0b5d72;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+
+    // Состояние, когда крутить больше некуда
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+}
+
+// Обертка, которая скрывает все, что не влезает в 4 элемента
+.carouselViewport {
+    flex: 1;
+    overflow: hidden; 
+    padding: 4px 0; // Небольшой padding, чтобы тени или бордеры не обрезались, если они будут
+}
+
+.list {
+    display: flex;
+    gap: 12px; // Расстояние между пилюлями
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); // Плавная анимация прокрутки
+}
+
+.listItem {
+    // Вычисляем ширину так, чтобы ровно 4 элемента + 3 отступа (12px) помещались в 100%
+    flex: 0 0 calc((100% - (12px * 3)) / 4);
+    display: flex;
+}
+
+.categoryBtn {
+    width: 100%; // Растягиваем кнопку на всю доступную ширину listItem
+    padding: 12px 16px; // Боковые паддинги можно уменьшить, так как ширина фиксирована
+    border-radius: 50px;
+    border: none;
+    background-color: #fce2c9; 
+    color: #0b5d72; 
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    // Текст не переносится, а если не влезает — обрезается многоточием
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &.active {
+        background-color: #bad9df; 
+    }
+}

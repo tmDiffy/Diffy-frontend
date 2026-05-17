@@ -1,9 +1,9 @@
 @use '../../theme/styles/variables' as vars;
-
 .searchBlock {
-    min-height: 90vh;
+    min-height: 80vh;
     background: no-repeat center/cover url("/images/body-bg.png"); 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -46,13 +46,14 @@
     color: #72675b;
     font-size: 16px;
     font-weight: 500;
-    border-radius: 2.5px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    padding: 15px;
 
     &:enabled {
         background-color: #fff0df;

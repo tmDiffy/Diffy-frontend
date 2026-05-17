@@ -1,0 +1,225 @@
+.reg {
+    display: flex;
+    height: 100vh;
+    background-color: var(--color-soft_blue);
+    margin: 0;
+    padding: 0;
+}
+@media (max-width: 768px) {
+    .reg {
+        height: auto;
+    }
+}
+
+.inner {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.image {
+    flex: 1;
+    background-color: #61aea8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+.image img {
+    max-width: 90%;
+    max-height: 80vh;
+    -o-object-fit: contain;
+    object-fit: contain;
+    border-radius: 8px;
+}
+@media (max-width: 768px) {
+    .image {
+        display: none;
+    }
+}
+
+.formContainer {
+    flex: 1;
+    background-color: var(--color-green);
+    color: white;
+    padding: 3rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+.formContainer h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+@media (max-width: 768px) {
+    .formContainer h1 {
+        font-size: 2rem;
+    }
+}
+.formContainer .subtitle {
+    font-size: 1rem;
+    color: #b0c4c8;
+    margin-bottom: 1rem;
+}
+.formContainer form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+.formGroup label {
+    display: block;
+    font-size: 0.9rem;
+    color: #b0c4c8;
+    margin-bottom: 0.5rem;
+}
+.formGroup input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #3a6a75;
+    border-radius: 6px;
+    background-color: #2d5a63;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+}
+.formGroup input:focus {
+    border-color: var(--color-coffee, #fff);
+}
+
+.btnSubmit {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: var(--color-coffee);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: opacity 0.2s ease;
+}
+.btnSubmit:hover {
+    opacity: 0.9;
+}
+.btnSubmit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.btnGoogle {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #2d5a63;
+    color: white;
+    border: 1px solid #3a6a75;
+    border-radius: 6px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.btnGoogle:hover {
+    background-color: #3a6a75;
+}
+
+.googleIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.footer {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #b0c4c8;
+    width: 100%;
+}
+.footer .link {
+    color: #ffffff;
+    margin-left: 0.5rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+.footer .link:hover {
+    text-decoration: underline;
+}
+
+.errorMessage {
+    color: #ff4d4f;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.errorText {
+    color: #ff4d4f;
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    display: block;
+}
+
+.resetContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: var(--color-soft_blue);
+}
+
+.resetContent {
+    background-color: var(--color-green);
+    color: white;
+    padding: 3rem;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.resetContent h2 {
+    margin-bottom: 1rem;
+}
+.resetContent p {
+    color: #b0c4c8;
+}
+
+.btnSubmit {
+    width: 100%;
+    padding: 0.75rem;
+    background: #f7e1ca;
+    color: #72675b;
+    border-radius: 6px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+.btnSubmit:enabled {
+    background-color: #fff0df;
+}
+.btnSubmit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+} /*# sourceMappingURL=Register.module.css.map */

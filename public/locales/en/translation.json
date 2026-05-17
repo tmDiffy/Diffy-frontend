@@ -20,7 +20,8 @@
         "errorLoad": "Error loading data",
         "alertLogin": "Please log in to save comparison.",
         "alertSaved": "Saved to favorites!",
-        "alertSaveError": "Failed to save."
+        "alertSaveError": "Failed to save.",
+        "loading": "Loading comparisons..."
     },
     "auth": {
         "loginTitle": "Sign in to Diffy",
@@ -43,17 +44,16 @@
         "loginLink": "Sign in",
         "registerSuccess": "Account created successfully!",
         "registerError": "Registration error: ",
-        "loginError": "Wrong login or password",
         "checkData": "check your data",
         "emptyEmail": "Email cannot be empty",
         "invalidEmail": "Invalid email format",
         "emptyPassword": "Password cannot be empty",
         "passwordsDoNotMatch": "Passwords do not match",
-        "passwordTooShort": "Password must be at least 6 characters long",
+        "passwordTooShort": "Password must be at least 8 characters long",
         "emptyName": "Name cannot be empty",
-        "auth.loginSuccess": "Login successful",
-        "auth.loading": "Logging in...",
-        "auth.loginError": "Login error. Check your data."
+        "loginSuccess": "Login successful",
+        "loading": "Logging in...",
+        "loginError": "Login error. Check your data."
     },
     "card": {
         "charHeader": "Characteristics",

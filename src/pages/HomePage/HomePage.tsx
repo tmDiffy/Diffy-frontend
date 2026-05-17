@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import favOff from "../../assets/icons/Favourite_button.svg";
 import favOn from "../../assets/icons/Favourite_button_active.svg";
 import Plus from "../../assets/icons/Plus.svg";
+import CategoriesList from "../../features/Categories/CategoriesList";
 
 export function HomePage() {
     const { t } = useTranslation();
@@ -85,6 +86,7 @@ export function HomePage() {
     return (
         <main>
             <div className={styles.searchBlock}>
+                <CategoriesList />
                 <div className={styles.searchContainer}>
                     <div className={styles.searchInputs}>
                         <Search
@@ -96,7 +98,7 @@ export function HomePage() {
                         {products[0].id !== 0 && (
                             <>
                                 <div className={styles.plusIcon}>
-                                    <img src={Plus} alt="plus" width="70" />
+                                    <img src={Plus} alt="plus" width="50" />
                                 </div>
                                 <Search
                                     placeholder={t("home.searchPlaceholder2")}
@@ -111,7 +113,7 @@ export function HomePage() {
                         {products[1].id !== 0 && (
                             <>
                                 <div className={styles.plusIcon}>
-                                    <img src={Plus} alt="plus" width="70" />
+                                    <img src={Plus} alt="plus" width="50" />
                                 </div>
                                 <Search
                                     placeholder={t("home.searchPlaceholder3")}
