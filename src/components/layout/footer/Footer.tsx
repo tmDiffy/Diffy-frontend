@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import "./Footer.css";
+import styles from "./Footer.module.scss";
 import LogoWhite from "../../../assets/icons/White_Diffy.svg";
 
 export default function Footer() {
@@ -7,9 +7,9 @@ export default function Footer() {
 
     return (
         <footer>
-            <div className="footer-container">
-                <div className="footer-logo-section">
-                    <a href="/" className="footer-logo">
+            <div className={styles.footerContainer}>
+                <div className={styles.footerLogoSection}>
+                    <a href="/" className={styles.footerLogo}>
                         <img src={LogoWhite} alt="Logo" />
                     </a>
                 </div>
@@ -17,20 +17,22 @@ export default function Footer() {
                 <div>
                     <ul>
                         <li>
-                            <h3 className="footer-header">
+                            <h3 className={styles.footerHeader}>
                                 {t("footer.support")}
                             </h3>
                         </li>
                         <li>
                             <a
                                 href="mailto:diffy@gmail.com"
-                                className="footer-text"
+                                className={styles.footerText}
                             >
                                 diffy@gmail.com
                             </a>
                         </li>
                         <li>
-                            <p className="footer-text">+7-123-456-78-90</p>
+                            <p className={styles.footerText}>
+                                +7-123-456-78-90
+                            </p>
                         </li>
                     </ul>
                 </div>
@@ -38,17 +40,17 @@ export default function Footer() {
                 <div>
                     <ul>
                         <li>
-                            <h3 className="footer-header">
+                            <h3 className={styles.footerHeader}>
                                 {t("footer.account")}
                             </h3>
                         </li>
                         <li>
-                            <a href="/" className="footer-text">
+                            <a href="/" className={styles.footerText}>
                                 {t("footer.myAccount")}
                             </a>
                         </li>
                         <li>
-                            <a href="/register" className="footer-text">
+                            <a href="/register" className={styles.footerText}>
                                 {t("footer.signInUp")}
                             </a>
                         </li>
@@ -58,17 +60,17 @@ export default function Footer() {
                 <div>
                     <ul>
                         <li>
-                            <h3 className="footer-header">
+                            <h3 className={styles.footerHeader}>
                                 {t("footer.aboutUs")}
                             </h3>
                         </li>
                         <li>
-                            <a href="/" className="footer-text">
+                            <a href="/" className={styles.footerText}>
                                 {t("footer.privacyPolicy")}
                             </a>
                         </li>
                         <li>
-                            <a href="/" className="footer-text">
+                            <a href="/" className={styles.footerText}>
                                 FAQ
                             </a>
                         </li>

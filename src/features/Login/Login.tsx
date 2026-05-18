@@ -1,95 +1,113 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { authService } from "../../api/services/auth.service"; // Наш сервис
-import "./Login.css";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { authService } from "../../api/services/auth.service";
+import { toast } from "react-toastify";
+import {
+    loginSchema,
+    type LoginFormValues,
+} from "../../utils/validations/auth.schemas";
+import styles from "./Login.module.scss";
 
 export function Login() {
     const { t } = useTranslation();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<LoginFormValues>({
+        resolver: zodResolver(loginSchema),
+    });
 
-        setError("");
-
-        if (email === "") {
-            setError(t("auth.emptyEmail"));
-            return;
-        }
-        if (!email.includes("@")) {
-            setError(t("auth.invalidEmail"));
-            return;
-        }
-        if (password === "") {
-            setError(t("auth.emptyPassword"));
-            return;
-        }
+    const onSubmit = async (data: LoginFormValues) => {
+        const toastId = toast.loading(t("auth.loading"));
 
         try {
-            // 1. Вызываем метод сервиса
-            const data = await authService.login({ email, password });
+            const response = await authService.login(data);
 
-            // 2. Сохраняем токены (структура data зависит от того, что вернет apiClient)
-            localStorage.setItem("access_token", data.access);
-            localStorage.setItem("refresh_token", data.refresh);
+            localStorage.setItem("access_token", response.access);
+            localStorage.setItem("refresh_token", response.refresh);
 
-            console.log(t("auth.loginSuccess"));
+            toast.update(toastId, {
+                render: t("auth.loginSuccess"),
+                type: "success",
+                isLoading: false,
+                autoClose: 1500,
+            });
 
-            // 3. Перенаправляем пользователя
             navigate("/");
 
-            // Перезагрузка нужна, если Header не умеет подхватывать изменения localStorage автоматически
-            window.location.reload();
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
         } catch (error: any) {
-            // Ошибка уже обработана в apiClient, здесь мы просто выводим уведомление
+            toast.update(toastId, {
+                render: t("auth.loginError"),
+                type: "error",
+                isLoading: false,
+                autoClose: 3000,
+            });
             console.error("Ошибка входа:", error.message);
-            setError(t("auth.loginError"));
         }
     };
 
     return (
-        <main className="auth">
-            <div className="auth__inner">
-                <div className="auth__image">
-                    {/* Убедись, что путь к картинке верный, обычно в Vite это /src/assets/... */}
+        <main className={styles.auth}>
+            <div className={styles.inner}>
+                {/* ... Картинка ... */}
+                <div className={styles.image}>
                     <img
                         src="../../../public/images/iPhone-17.png"
                         alt="iPhone 17 Pro"
                     />
                 </div>
-                <div className="auth__form">
+
+                <div className={styles.formContainer}>
                     <h1>{t("auth.loginTitle")}</h1>
                     <p>{t("auth.loginSubtitle")}</p>
 
-                    <form onSubmit={handleSubmit}>
-                        <input
-                            type="email"
-                            placeholder={t("auth.emailPlaceholder")}
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div>
+                            <input
+                                type="email"
+                                placeholder={t("auth.emailPlaceholder")}
+                                {...register("email")}
+                            />
+                            {errors.email && (
+                                <span className={styles.errorText}>
+                                    {t(errors.email.message as string)}
+                                </span>
+                            )}
+                        </div>
 
-                        <input
-                            type="password"
-                            placeholder={t("auth.passwordPlaceholder")}
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                        <div>
+                            <input
+                                type="password"
+                                placeholder={t("auth.passwordPlaceholder")}
+                                {...register("password")}
+                            />
+                            {errors.password && (
+                                <span className={styles.errorText}>
+                                    {t(errors.password.message as string)}
+                                </span>
+                            )}
+                        </div>
 
-                        <button type="submit">{t("auth.loginButton")}</button>
+                        <button type="submit" disabled={isSubmitting}>
+                            {isSubmitting ? "..." : t("auth.loginButton")}
+                        </button>
 
-                        <Link to="/">{t("auth.forgotPassword")}</Link>
+                        <Link to="/password_reset">
+                            {t("auth.forgotPassword")}
+                        </Link>
                     </form>
 
-                    {error && <div className="error-message">{error}</div>}
-
-                    <div className="auth__footer">
+                    <div className={styles.footer}>
                         <span>{t("auth.noAccount")}</span>
-                        <Link to="/register" className="auth__link">
+                        <Link to="/register" className={styles.link}>
                             {t("auth.registerLink")}
                         </Link>
                     </div>

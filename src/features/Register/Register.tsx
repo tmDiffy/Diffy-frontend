@@ -1,140 +1,163 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { authService } from "../../api/services/auth.service";
 import googleIcon from "../../assets/icons/Google.svg";
-import "./Register.css";
+import {
+    registerSchema,
+    type RegisterFormValues,
+} from "../../utils/validations/auth.schemas.ts";
+import styles from "./Register.module.scss"; // Импортируем стили как модуль
 
 export function Register() {
     const { t } = useTranslation();
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordRepeat, setPasswordRepeat] = useState("");
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [serverError, setServerError] = useState("");
+    const [submittedEmail, setSubmittedEmail] = useState("");
 
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm<RegisterFormValues>({
+        resolver: zodResolver(registerSchema),
+        mode: "onBlur",
+    });
 
-    async function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-
-        setError("");
-
-        if (name === "") {
-            setError(t("auth.emptyName"));
-            return;
-        }
-        if (!email.includes("@")) {
-            setError(t("auth.invalidEmail"));
-            return;
-        }
-        if (password !== passwordRepeat) {
-            setError(t("auth.passwordsDoNotMatch"));
-            return;
-        }
-        if (password.length < 6) {
-            setError(t("auth.passwordTooShort"));
-            return;
-        }
+    const onSubmit = async (data: RegisterFormValues) => {
+        setServerError("");
 
         try {
-            // Используем сервис. Ключи объекта должны совпадать с ожиданиями бэкенда
-            await authService.register({
-                username: name,
-                email: email,
-                password: password,
-            });
-
-            console.log(t("auth.registerSuccess"));
-            navigate("/login");
+            await authService.register(data.name, data.email, data.password);
+            setSubmittedEmail(data.email);
+            setIsSuccess(true);
         } catch (error: any) {
-            // Наш apiClient уже прокинул текст ошибки в error.message
             const errorMessage = error.message || t("auth.checkData");
-            console.error(`${t("auth.registerError")} ${errorMessage}`);
-            setError(`${t("auth.registerError")} ${errorMessage}`);
+            setServerError(`${t("auth.registerError")} ${errorMessage}`);
         }
+    };
+
+    if (isSuccess) {
+        return (
+            <main className={styles.resetContainer}>
+                <div className={styles.resetContent}>
+                    <h2>Письмо отправлено!</h2>
+                    <p>
+                        Проверьте вашу почту {submittedEmail}. Мы отправили туда
+                        ссылку.
+                    </p>
+                </div>
+            </main>
+        );
     }
 
     return (
-        <main className="reg">
-            <div className="reg__inner">
-                <div className="reg__image">
+        <main className={styles.reg}>
+            <div className={styles.inner}>
+                <div className={styles.image}>
                     <img
                         src="../../../public/images/iPhone-17.png"
                         alt="iPhone 17 Pro"
                     />
                 </div>
-                <div className="reg__form">
+                <div className={styles.formContainer}>
                     <h1>{t("auth.registerTitle")}</h1>
-                    <p className="reg-subtitle">{t("auth.registerSubtitle")}</p>
+                    <p className={styles.subtitle}>
+                        {t("auth.registerSubtitle")}
+                    </p>
 
-                    <form onSubmit={handleSubmit}>
-                        <div className="form__group">
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className={styles.formGroup}>
                             <label htmlFor="name">{t("auth.nameLabel")}</label>
                             <input
                                 id="name"
                                 type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                {...register("name")}
                             />
+                            {errors.name && (
+                                <span className={styles.errorText}>
+                                    {t(errors.name.message as string)}
+                                </span>
+                            )}
                         </div>
 
-                        <div className="form__group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="email">
                                 {t("auth.emailLabel")}
                             </label>
                             <input
                                 id="email"
                                 type="email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                {...register("email")}
                             />
+                            {errors.email && (
+                                <span className={styles.errorText}>
+                                    {t(errors.email.message as string)}
+                                </span>
+                            )}
                         </div>
 
-                        <div className="form__group">
+                        <div className={styles.formGroup}>
                             <label htmlFor="password">
                                 {t("auth.passwordLabel")}
                             </label>
                             <input
                                 id="password"
                                 type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                {...register("password")}
                             />
+                            {errors.password && (
+                                <span className={styles.errorText}>
+                                    {t(errors.password.message as string)}
+                                </span>
+                            )}
                         </div>
 
-                        <div className="form__group">
-                            <label htmlFor="password_repeat">
+                        <div className={styles.formGroup}>
+                            <label htmlFor="passwordRepeat">
                                 {t("auth.passwordRepeatLabel")}
                             </label>
                             <input
-                                id="password_repeat"
+                                id="passwordRepeat"
                                 type="password"
-                                value={passwordRepeat}
-                                onChange={(e) =>
-                                    setPasswordRepeat(e.target.value)
-                                }
+                                {...register("passwordRepeat")}
                             />
+                            {errors.passwordRepeat && (
+                                <span className={styles.errorText}>
+                                    {t(errors.passwordRepeat.message as string)}
+                                </span>
+                            )}
                         </div>
 
-                        <button type="submit" className="btn-submit">
-                            {t("auth.createAccountButton")}
+                        <button
+                            type="submit"
+                            className={styles.btnSubmit}
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting
+                                ? "Загрузка..."
+                                : t("auth.createAccountButton")}
                         </button>
 
-                        <button type="button" className="btn-google">
+                        <button type="button" className={styles.btnGoogle}>
                             <img
                                 src={googleIcon}
                                 alt="Google"
-                                className="google-icon"
+                                className={styles.googleIcon}
                             />
                             {t("auth.googleButton")}
                         </button>
                     </form>
-                    {error && <div className="error-message">{error}</div>}
 
-                    <div className="reg__footer">
+                    {serverError && (
+                        <div className={styles.errorMessage}>{serverError}</div>
+                    )}
+
+                    <div className={styles.footer}>
                         <span>{t("auth.alreadyHaveAccount")}</span>
-                        <Link to="/login" className="reg__link">
+                        <Link to="/login" className={styles.link}>
                             {t("auth.loginLink")}
                         </Link>
                     </div>

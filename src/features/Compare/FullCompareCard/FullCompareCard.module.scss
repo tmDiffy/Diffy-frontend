@@ -1,0 +1,171 @@
+.noData {
+    color: white;
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    background-color: var(--color-soft_blue);
+    min-height: 100vh;
+}
+
+.comparePage {
+    background-color: var(--color-soft_blue);
+    color: white;
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+}
+
+// Обертка для табличной части, чтобы на телефонах можно было свайпать вбок
+.scrollWrapper {
+    width: 100%;
+    max-width: 1200px;
+    overflow-x: auto;
+    // Плавная прокрутка на iOS
+    -webkit-overflow-scrolling: touch; 
+    
+    // Прячем скроллбар для эстетики (по желанию)
+    &::-webkit-scrollbar {
+        height: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
+}
+
+// Общий паттерн для выравнивания колонок
+%gridRow {
+    display: flex;
+    gap: 1rem;
+    min-width: 600px; // Минимальная ширина, чтобы на мобилках контент не сплющило
+    
+    > * {
+        flex: 1; // Все колонки равной ширины
+        min-width: 0; // Предотвращает разрыв флекса при длинном тексте
+    }
+}
+
+.cards {
+    margin-bottom: 2rem;
+}
+
+.description {
+    @extend %gridRow;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 2rem;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-top: 1rem;
+        color: white;
+    }
+}
+
+.cardImageWrapper {
+    width: 100%;
+    max-width: 180px;
+    height: 220px;
+    background-color: white;
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cardImage {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.imagePlaceholder {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}
+
+.fullCard {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.section {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.mainCharHeader {
+    margin-bottom: 1.5rem;
+    
+    h2 {
+        font-size: 1.3rem;
+        color: var(--color-coffee, #fce5cc);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 0.5rem;
+    }
+}
+
+.charRow {
+    margin-bottom: 1.5rem;
+    
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.charHeader {
+    font-size: 0.9rem;
+    color: #b0c4c8;
+    margin-bottom: 0.5rem;
+    text-align: center;
+    font-weight: 400;
+}
+
+.char {
+    @extend %gridRow;
+}
+
+.charValue {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.75rem;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+
+    // Стили для лучшей характеристики
+    &.best {
+        color: #4caf50; // Зеленый цвет текста
+        background-color: rgba(76, 175, 80, 0.1);
+        border: 1px solid rgba(76, 175, 80, 0.3);
+        font-weight: 600;
+    }
+
+    // Стили для худшей характеристики
+    &.worst {
+        color: #ff5252; // Красный цвет текста
+        background-color: rgba(255, 82, 82, 0.1);
+        border: 1px solid rgba(255, 82, 82, 0.3);
+    }
+}

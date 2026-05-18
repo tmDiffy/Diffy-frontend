@@ -1,0 +1,73 @@
+.searchWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 10px 10px 10px 55px;
+    height: 65px;
+    border-radius: 17px;
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    background: #ffe8ce;
+    background-image: url('../../../assets/icons/Search.svg');
+    background-repeat: no-repeat;
+    background-position: 20px center;
+    color: #4d463e;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.searchDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fce5cc;
+    border-radius: 15px;
+    margin-top: 5px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 100;
+    padding: 0;
+    list-style: none;
+
+    li {
+        padding: 12px 20px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background: #fff0e0;
+        }
+    }
+}
+
+.productImage {
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.productDropdown {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}

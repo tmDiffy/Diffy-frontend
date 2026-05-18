@@ -1,0 +1,125 @@
+@charset "UTF-8";
+.searchBlock {
+    min-height: 80vh;
+    background: no-repeat center/cover url("/images/body-bg.png");
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    /* Вложенность! */
+}
+.searchContainer input::-moz-placeholder {
+    overflow: visible;
+}
+.searchContainer input::placeholder {
+    overflow: visible;
+}
+@media (max-width: 1024px) {
+    .searchContainer input {
+        height: 65px;
+    }
+}
+
+.searchInputs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.mainCompareBtn,
+.moreBtn {
+    width: 100%;
+    max-width: 200px;
+    height: 55px;
+    border: none;
+    background: #f7e1ca;
+    color: #72675b;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    padding: 15px;
+}
+.mainCompareBtn:enabled,
+.moreBtn:enabled {
+    background-color: #fff0df;
+}
+.mainCompareBtn:disabled,
+.moreBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.favBtnMain {
+    all: unset;
+    position: absolute;
+    top: 70px;
+    right: 0px;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s ease;
+}
+.favBtnMain:hover {
+    transform: scale(1.1);
+    background: none !important;
+}
+.favBtnMain img {
+    width: 40px;
+    height: 40px;
+}
+@media (max-width: 1024px) {
+    .favBtnMain {
+        right: 20px;
+    }
+}
+@media (max-width: 768px) {
+    .favBtnMain {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+.cardsBg {
+    background: no-repeat center/cover url("/images/cards-bg.png");
+}
+
+.compareResults {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.compareCardsFlex {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+@media (max-width: 768px) {
+    .compareCardsFlex {
+        flex-direction: column;
+        align-items: center;
+    }
+} /*# sourceMappingURL=HomePage.module.css.map */

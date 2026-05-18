@@ -1,0 +1,26 @@
+@use './styles/variables';
+
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Golos Text", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: variables.$color-green;
+    color: #4d463e;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+
+input,
+button,
+textarea,
+select {
+    font-family: inherit;
+}

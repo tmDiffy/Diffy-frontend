@@ -1,0 +1,124 @@
+@charset "UTF-8";
+/* @use '../../../theme/styles/variables' as vars; */
+.mainHeader {
+    background: transparent; /* Убрали заливку всего хедера */
+    padding: 30px 60px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.headerNav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.logoLink {
+    flex-shrink: 0;
+}
+
+/* Стилизация блока плашки (пилюли) */
+.actionsPill {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background-color: #ffe8ce; /* Цвет переехал сюда */
+    padding: 10px 24px;
+    border-radius: 50px; /* Сильное закругление */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Легкая тень для плашки */
+}
+
+/* Сбросили старые грубые стили кнопки языка */
+.langBtn {
+    background: transparent;
+    color: #1d4a58; /* Цвет текста под иконки */
+    border: none;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.2s ease;
+}
+.langBtn:hover {
+    opacity: 0.7;
+}
+
+/* Универсальный класс для кнопок-иконок */
+.iconBtn {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+.iconBtn img {
+    width: 32px; /* Чуть уменьшил, чтобы аккуратно смотрелось в плашке */
+    height: 32px;
+    transition: transform 0.2s;
+}
+.iconBtn:hover img {
+    transform: scale(1.1);
+}
+
+.userProfileContainer {
+    flex-shrink: 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Выпадающее меню остается без изменений */
+.accountDropdown {
+    position: absolute;
+    top: calc(100% + 20px); /* Отступ от плашки */
+    right: 0px;
+    background-color: #32525c;
+    padding: 15px;
+    border-radius: 8px;
+    min-width: 200px;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.dropdownEmail {
+    color: white;
+    font-size: 14px;
+    margin-bottom: 12px;
+    word-break: break-all;
+}
+
+.dropdownItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white !important;
+    text-decoration: none;
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.dropdownIcon {
+    width: 20px;
+    filter: brightness(0) invert(1);
+}
+
+.logoutBtn {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+}
+
+.logoutIcon {
+    display: flex;
+    align-items: center;
+} /*# sourceMappingURL=Header.module.css.map */

@@ -1,0 +1,97 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 35px;
+}
+
+.arrowBtn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #0b5d72;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+.arrowBtn:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.arrowBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.carouselViewport {
+    flex: 1;
+    overflow: hidden;
+    padding: 4px 0;
+}
+
+.list {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.listItem {
+    flex: 0 0 calc((100% - 36px) / 4);
+    display: flex;
+}
+
+.categoryBtn {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 50px;
+    border: none;
+    background-color: #fce2c9;
+    color: #0b5d72;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.categoryBtn:hover {
+    opacity: 0.8;
+}
+.categoryBtn.active {
+    background-color: #bad9df;
+}
+
+.skeleton {
+    height: 44px;
+    background-color: #fce2c9;
+    cursor: default;
+    color: transparent;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+.skeleton:hover {
+    opacity: 0.4;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.4;
+    }
+    50% {
+        opacity: 0.8;
+    }
+    100% {
+        opacity: 0.4;
+    }
+} /*# sourceMappingURL=CategoriesList.module.css.map */

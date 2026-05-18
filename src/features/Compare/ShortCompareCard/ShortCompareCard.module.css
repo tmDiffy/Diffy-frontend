@@ -1,0 +1,128 @@
+.cardBase {
+    --card-bg: url("/images/short-product1-bg.png");
+    --text-main: #ffffff;
+    --text-subtitle: #fce5cc;
+    --char-name: #b0c4c8;
+    --border-color: rgba(255, 255, 255, 0.15);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    min-height: 450px;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-image: var(--card-bg);
+    background-size: cover;
+    background-position: center;
+    color: var(--text-main);
+}
+@media (max-width: 1024px) {
+    .cardBase {
+        max-width: 45%;
+    }
+}
+@media (max-width: 768px) {
+    .cardBase {
+        max-width: 90%;
+        margin: 10px 0;
+        padding: 1rem;
+    }
+}
+
+.themeLight {
+    --card-bg: url("/images/short-product2-bg.png");
+    --text-main: #1d4a58;
+    --text-subtitle: #1d4a58;
+    --char-name: #72675b;
+    --border-color: rgba(24, 48, 53, 0.301);
+}
+
+.imageWrapper {
+    width: 100%;
+    height: 200px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    box-sizing: border-box;
+}
+@media (max-width: 768px) {
+    .imageWrapper {
+        height: 160px;
+    }
+}
+
+.image {
+    max-width: 100%;
+    max-height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-subtitle);
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+    font-weight: 500;
+}
+
+.characteristicsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    flex: 1;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.char {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 0.25rem;
+}
+@media (max-width: 480px) {
+    .char {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+        border-bottom: none;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.charName {
+    color: var(--char-name);
+    flex-shrink: 0;
+}
+
+.charValue {
+    font-weight: 500;
+    text-align: right;
+    word-break: break-word;
+}
+@media (max-width: 480px) {
+    .charValue {
+        text-align: left;
+    }
+} /*# sourceMappingURL=ShortCompareCard.module.css.map */

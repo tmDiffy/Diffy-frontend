@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import axios from "axios";
 import i18n from "./i18n";
-import "./theme/index.css";
+import "./theme/index.scss";
 
 axios.interceptors.request.use((config) => {
     config.headers["Accept-Language"] = i18n.language;
