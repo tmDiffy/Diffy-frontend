@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { type Product } from "../../types/product";
 import { productService } from "../../api/services/product.service";
 import { toast } from "react-toastify";
+import AiModal from "../../components/AiModal/AiModal";
 
 import favOff from "../../assets/icons/Favourite_button.svg";
 import favOn from "../../assets/icons/Favourite_button_active.svg";
@@ -25,6 +26,7 @@ export function HomePage() {
     const [compareData, setCompareData] = useState<any[] | null>(null);
     const [isFav, setIsFav] = useState(false);
     const [activeCategory, setActiveCategory] = useState<Category | null>(null);
+    const [isAiModalOpen, setIsAiModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const updateProduct = (index: number, id: number, name: string) => {
@@ -185,21 +187,35 @@ export function HomePage() {
                         </div>
 
                         {compareData.length >= 2 && (
-                            <button
-                                className={styles.moreBtn}
-                                style={{ marginTop: "40px" }}
-                                onClick={() =>
-                                    navigate("/compare", {
-                                        state: { products: compareData },
-                                    })
-                                }
-                            >
-                                {t("home.moreBtn")}
-                            </button>
+                            <div className={styles.actionButtons}>
+                                <button
+                                    className={styles.moreBtn}
+                                    onClick={() =>
+                                        navigate("/compare", {
+                                            state: { products: compareData },
+                                        })
+                                    }
+                                >
+                                    {t("home.moreBtn")}
+                                </button>
+
+                                <button
+                                    className={styles.aiBtn}
+                                    onClick={() => setIsAiModalOpen(true)}
+                                >
+                                    {t("AI.ask")}
+                                </button>
+                            </div>
                         )}
                     </div>
                 )}
             </div>
+
+            <AiModal
+                isOpen={isAiModalOpen}
+                onClose={() => setIsAiModalOpen(false)}
+                productIds={compareData ? compareData.map((p) => p.id) : []}
+            />
         </main>
     );
 }

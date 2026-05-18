@@ -2,6 +2,8 @@ import styles from "./FullCompareCard.module.scss";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { type Product } from "../../../types/product";
+import AiModal from "../../../components/AiModal/AiModal";
+import { t } from "i18next";
 
 // Раскомментируйте, если будете использовать кнопки избранного
 // import favOff from "../../../assets/icons/Favourite_button.svg";
@@ -12,6 +14,7 @@ export function FullCompareCard() {
     const products: Product[] = state?.products || [];
 
     const [isFav, setIsFav] = useState(false);
+    const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
     if (!products.length) {
         return <p className={styles.noData}>Нет данных для сравнения</p>;
@@ -177,7 +180,22 @@ export function FullCompareCard() {
                         ))}
                     </div>
                 </div>
+
+                <div className={styles.aiBtnWrapper}>
+                    <button
+                        className={styles.aiBtnBig}
+                        onClick={() => setIsAiModalOpen(true)}
+                    >
+                        {t("AI.ask")}
+                    </button>
+                </div>
             </div>
+
+            <AiModal
+                isOpen={isAiModalOpen}
+                onClose={() => setIsAiModalOpen(false)}
+                productIds={products.map((p) => p.id)}
+            />
         </main>
     );
 }

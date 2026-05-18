@@ -128,5 +128,11 @@
     },
     "categories": {
         "all": "All categories"
+    },
+    "AI": {
+        "ask": "Ask AI",
+        "modalTitle": "AI Product Analysis",
+        "loading": "AI is analyzing products, please wait",
+        "errorMessage": "Failed to get a response from AI. Please try again later."
     }
 }

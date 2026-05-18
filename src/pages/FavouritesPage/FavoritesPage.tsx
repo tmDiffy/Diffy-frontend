@@ -5,7 +5,7 @@ import {
     productService,
     type FavoriteEntry,
 } from "../../api/services/product.service";
-import "./FavouritesPage.module.scss";
+import styles from "./FavouritesPage.module.scss";
 
 export function FavoritesPage() {
     const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
@@ -15,7 +15,6 @@ export function FavoritesPage() {
     const navigate = useNavigate();
     const { t } = useTranslation();
 
-    // Загрузка данных
     useEffect(() => {
         const fetchFavs = async () => {
             try {
@@ -31,7 +30,6 @@ export function FavoritesPage() {
         fetchFavs();
     }, []);
 
-    // Переход к сравнению
     const handleGoToCompare = async (group: FavoriteEntry) => {
         setSyncingId(group.id);
         try {
@@ -46,7 +44,6 @@ export function FavoritesPage() {
         }
     };
 
-    // Удаление контентуса из избранного
     const handleDelete = async (id: number) => {
         try {
             await productService.deleteFavorite(id);
@@ -56,59 +53,111 @@ export function FavoritesPage() {
         }
     };
 
+    // Функция-помощник для отрисовки одного товара
+    const renderProduct = (p: any) => (
+        <div key={p.id} className={styles["fav-item-mini"]}>
+            <div className={styles["fav-img-box"]}>
+                <img src={p.img ?? ""} alt={p.name} />
+            </div>
+            <p className={styles["product-name"]}>{p.name}</p>
+        </div>
+    );
+
     if (loading) {
         return (
-            <div className="fav-page-wrapper">
-                <h2 className="loading-text">{t("favourites.favLoading")}</h2>
+            <div className={styles["fav-page-wrapper"]}>
+                <h2 className={styles["loading-text"]}>
+                    {t("favourites.favLoading")}
+                </h2>
             </div>
         );
     }
 
     return (
-        <main className="fav-page-wrapper">
-            <h1 className="fav-title">{t("favourites.favCompares")}</h1>
-            <div className="favorites-list">
+        <main className={styles["fav-page-wrapper"]}>
+            <h1 className={styles["fav-title"]}>
+                {t("favourites.favCompares")}
+            </h1>
+
+            <div className={styles["favorites-list"]}>
                 {favorites.length === 0 ? (
-                    <p className="no-data">
+                    <p className={styles["no-data"]}>
                         {t("favourites.noneFavouriteCompares")}
                     </p>
                 ) : (
                     favorites.map((group) => {
                         const isThisLoading = syncingId === group.id;
+                        const prods = group.products;
+
                         return (
-                            <div key={group.id} className="fav-group-card">
+                            <div
+                                key={group.id}
+                                className={styles["fav-group-card"]}
+                            >
                                 <button
-                                    className="delete-fav-icon"
+                                    className={styles["delete-fav-icon"]}
                                     onClick={() => handleDelete(group.id)}
                                 >
                                     ×
                                 </button>
 
-                                <div className="fav-products-row">
-                                    {group.products.map((p, idx) => (
-                                        <div
-                                            key={p.id}
-                                            className="fav-item-mini"
-                                        >
-                                            <div className="fav-img-box">
-                                                <img
-                                                    src={p.img ?? ""}
-                                                    alt={p.name}
-                                                />
-                                            </div>
-                                            <p>{p.name}</p>
-                                            {idx <
-                                                group.products.length - 1 && (
-                                                <span className="vs-label">
+                                {/* Контейнер для центровки товаров */}
+                                <div
+                                    className={styles["fav-products-container"]}
+                                >
+                                    {/* Если 2 товара (или меньше) */}
+                                    {prods.length <= 2 && (
+                                        <div className={styles["row-top"]}>
+                                            {prods.map((p, idx) => (
+                                                <div
+                                                    key={p.id}
+                                                    className={
+                                                        styles["row-flex"]
+                                                    }
+                                                >
+                                                    {renderProduct(p)}
+                                                    {idx === 0 &&
+                                                        prods.length === 2 && (
+                                                            <span
+                                                                className={
+                                                                    styles[
+                                                                        "vs-label"
+                                                                    ]
+                                                                }
+                                                            >
+                                                                VS
+                                                            </span>
+                                                        )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Если 3 товара (Рисуем пирамиду) */}
+                                    {prods.length === 3 && (
+                                        <>
+                                            <div className={styles["row-top"]}>
+                                                {renderProduct(prods[0])}
+                                                <span
+                                                    className={
+                                                        styles["vs-label"]
+                                                    }
+                                                >
                                                     VS
                                                 </span>
-                                            )}
-                                        </div>
-                                    ))}
+                                                {renderProduct(prods[1])}
+                                            </div>
+                                            <div
+                                                className={styles["row-bottom"]}
+                                            >
+                                                {renderProduct(prods[2])}
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
 
                                 <button
-                                    className="main-compare-btn"
+                                    className={styles["main-compare-btn"]}
                                     disabled={syncingId !== null}
                                     onClick={() => handleGoToCompare(group)}
                                     style={{

@@ -169,3 +169,33 @@
         border: 1px solid rgba(255, 82, 82, 0.3);
     }
 }
+
+.aiBtnWrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.aiBtnBig {
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    color: #5d5349;
+    
+    background: linear-gradient(90deg, #A8E0D5, #FFE5D4, #A8E0D5);
+    background-size: 200% auto;
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+        background-position: right center;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(168, 224, 213, 0.4);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}

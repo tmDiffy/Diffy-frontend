@@ -1,4 +1,5 @@
 @use '../../theme/styles/variables' as vars;
+
 .searchBlock {
     min-height: 80vh;
     background: no-repeat center/cover url("/images/body-bg.png"); 
@@ -42,7 +43,7 @@
     max-width: 200px;
     height: 55px;
     border: none;
-    background: #f7e1ca; // Можно вынести в vars!
+    background: #f7e1ca;
     color: #72675b;
     font-size: 16px;
     font-weight: 500;
@@ -102,7 +103,7 @@
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 60px 20px 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -121,3 +122,42 @@
     }
 }
 
+
+.actionButtons {
+    margin-top: 40px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.aiBtn {
+    width: 100%;
+    max-width: 200px;
+    height: 55px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border: none;
+    
+    color: #5d5349; 
+    
+    background: linear-gradient(90deg, #A8E0D5, #FFE5D4, #A8E0D5);
+    background-size: 200% auto;
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+        background-position: right center;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(168, 224, 213, 0.4); 
+    }
+    
+    &:active {
+        transform: translateY(0);
+    }
+}

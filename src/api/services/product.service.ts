@@ -36,4 +36,9 @@ export const productService = {
 
     deleteFavorite: (id: number) =>
         apiClient.delete(`/comparison/favorites/${id}/`),
+
+    getAiSummary: (ids: number[]) =>
+        apiClient.post<{ summary: string }>("/ai/comparison/", {
+            product_ids: ids,
+        }),
 };
