@@ -4,6 +4,7 @@ import { apiClient } from "../apiClient";
 export type UserData = {
     email: string;
     username: string;
+    is_staff: boolean;
 };
 
 export const authService = {

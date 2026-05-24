@@ -9,10 +9,14 @@ import {
     type LoginFormValues,
 } from "../../utils/validations/auth.schemas";
 import styles from "./Login.module.scss";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { useAuth } from "../../context/AuthContext";
 
 export function Login() {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { fetchUser } = useCurrentUser();
+    const { refreshUser } = useAuth();
 
     const {
         register,
@@ -31,6 +35,8 @@ export function Login() {
             localStorage.setItem("access_token", response.access);
             localStorage.setItem("refresh_token", response.refresh);
 
+            await refreshUser();
+
             toast.update(toastId, {
                 render: t("auth.loginSuccess"),
                 type: "success",
@@ -39,10 +45,6 @@ export function Login() {
             });
 
             navigate("/");
-
-            setTimeout(() => {
-                window.location.reload();
-            }, 1000);
         } catch (error: any) {
             toast.update(toastId, {
                 render: t("auth.loginError"),

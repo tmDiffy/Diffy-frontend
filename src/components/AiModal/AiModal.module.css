@@ -30,12 +30,11 @@
     align-items: center;
     padding: 20px 24px;
     border-bottom: 1px solid #1d4a58;
-
-    h2 {
-        margin: 0;
-        font-size: 1.25rem;
-        color: #1d4a58;
-    }
+}
+.header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #1d4a58;
 }
 
 .closeBtn {
@@ -46,10 +45,9 @@
     cursor: pointer;
     color: #888;
     transition: color 0.2s;
-
-    &:hover {
-        color: #ff4d4f;
-    }
+}
+.closeBtn:hover {
+    color: #ff4d4f;
 }
 
 .content {
@@ -74,33 +72,37 @@
 .markdownBody {
     line-height: 1.6;
     color: #1d4a58;
-
-    h1, h2, h3, h4 {
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
-        color: #13313a;
-    }
-
-    p {
-        margin-bottom: 1em;
-    }
-
-    strong {
-        font-weight: 600;
-        color: #13313a;
-    }
-
-    ul {
-        padding-left: 20px;
-        margin-bottom: 1em;
-    }
-
-    li {
-        margin-bottom: 0.5em;
-    }
+}
+.markdownBody h1,
+.markdownBody h2,
+.markdownBody h3,
+.markdownBody h4 {
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+    color: #13313a;
+}
+.markdownBody p {
+    margin-bottom: 1em;
+}
+.markdownBody strong {
+    font-weight: 600;
+    color: #13313a;
+}
+.markdownBody ul {
+    padding-left: 20px;
+    margin-bottom: 1em;
+}
+.markdownBody li {
+    margin-bottom: 0.5em;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+} /*# sourceMappingURL=AiModal.module.css.map */

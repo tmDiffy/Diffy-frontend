@@ -7,14 +7,17 @@ import { useCurrentUser } from "../../../hooks/useCurrentUser";
 import Logo from "../../../assets/icons/Diffy.svg";
 import Favorites from "../../../assets/icons/Favourite.svg";
 import User from "../../../assets/icons/User.svg";
+import Admin from "../../../assets/icons/Admin.svg";
+import Line from "../../../assets/icons/Line.svg";
 
 import styles from "./Header.module.scss";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function Header() {
     const { t, i18n } = useTranslation();
     const navigate = useNavigate();
 
-    const { user, logout } = useCurrentUser();
+    const { user, isLoading, logout } = useAuth();
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -26,6 +29,7 @@ export default function Header() {
     };
 
     const handleUserClick = (e: React.MouseEvent) => {
+        if (isLoading) return;
         if (!user) {
             navigate("/login");
         } else {
@@ -48,6 +52,20 @@ export default function Header() {
 
                 {/* Единый блок "пилюля" для действий */}
                 <div className={styles.actionsPill}>
+                    {user?.is_staff && (
+                        <div className={styles.adminSection}>
+                            <img
+                                className={styles.iconAdmin}
+                                src={Admin}
+                                alt="Admin"
+                            />
+                            <img
+                                className={styles.iconLine}
+                                src={Line}
+                                alt="Line"
+                            />
+                        </div>
+                    )}
                     <button
                         onClick={toggleLanguage}
                         className={styles.langBtn}

@@ -1,59 +1,50 @@
 @charset "UTF-8";
-/* src/pages/ProfilePage/ProfilePage.module.scss */
 .profileBlock {
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 70vh;
-    color: #484037;
-    background: no-repeat center/cover url("/images/cards-bg.png");
+    min-height: 100vh;
+    padding-top: 100px;
+    color: #1d4a58;
+    background: no-repeat center/cover url("/images/body-bg.png");
 }
 
 .userAvatar {
-    border: 5px solid #fff6ec;
+    border: 3px solid #ffe8ce;
+    background-color: #fff6ec;
     border-radius: 50%;
-    height: 125px;
-    width: 125px;
-    -o-object-fit: cover;
-    object-fit: cover;
-    margin-top: 100px;
+    height: 120px;
+    width: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.avatarText {
-    font-weight: bold;
-    font-size: 50px;
+    margin-bottom: 15px;
+    font-size: 48px;
+    font-weight: 700;
+    color: #1d4a58;
 }
 
 .userName {
-    padding: 0;
-    margin: 15px 0 0 0;
-    font-size: 40px;
-    font-weight: 900;
+    margin: 0;
+    font-size: 32px;
+    font-weight: 800;
 }
 
 .userEmail {
-    padding: 0;
-    margin: 10px 0 0 0;
+    margin: 5px 0 30px 0;
+    color: #8c857d;
 }
 
 .profileChange {
     display: flex;
     flex-direction: column;
-    background-color: #fff6ec;
-    padding: 30px;
-    border-radius: 10px;
-    margin-block: 50px;
-    width: 30vw;
-    align-items: start;
-    /* Адаптив, чтобы на мобилках форма не была слишком узкой */
-}
-@media (max-width: 1024px) {
-    .profileChange {
-        width: 60vw;
-    }
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    width: 400px;
+    border: 1px solid #fcebd8;
+    margin-bottom: 50px;
 }
 @media (max-width: 768px) {
     .profileChange {
@@ -61,146 +52,98 @@
     }
 }
 
-.accountInfo {
-    font-weight: 700;
-    font-size: 20px;
-    margin: 0;
-}
-
 .line {
     border: none;
-    background-color: #b1a89d;
+    background-color: #ffe8ce;
     height: 1px;
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    margin-inline: auto;
+    margin: 20px 0;
 }
 
-/* Универсальный класс для всех надписей над инпутами */
 .fieldLabel {
-    font-size: 17px;
-    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #1d4a58;
 }
 
-/* Класс для инпутов (вместо глобального селектора input) */
 .inputField {
     width: 100%;
-    padding: 0 15px;
-    height: 45px;
-    border-radius: 5px;
-    border: 1px solid #b1a89d;
-    font-size: 16px;
-    color: #7e776f;
+    padding: 12px 20px;
+    border-radius: 50px;
+    border: 1px solid #e5e5e5;
+    font-size: 14px;
     margin-bottom: 15px;
+    transition: border 0.2s;
 }
-.inputField::-moz-placeholder {
-    opacity: 0.5;
-}
-.inputField::placeholder {
-    opacity: 0.5;
+.inputField:focus {
+    outline: none;
+    border-color: #ffe8ce;
 }
 
-/* Обертка для кнопок "Сохранить" и "Удалить" */
 .profileActions {
     display: flex;
-    gap: 15px;
-    width: 100%;
-    margin-top: 10px;
-}
-.profileActions button {
-    flex: 1;
-    height: 45px;
-    border-radius: 5px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.profileActions button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
 }
 
-/* Стили для кнопки сохранения (взял цвета похожие на главную страницу) */
 .btnSave {
-    background-color: #f7e1ca;
-    color: #72675b;
-    font-weight: 500;
+    background-color: #ffe8ce;
+    color: #1d4a58;
+    border: none;
+    padding: 12px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
 .btnSave:hover:not(:disabled) {
-    background-color: #fff0df;
+    opacity: 0.8;
 }
 
-.errorText {
-    color: #ff4d4f;
-    font-size: 14px;
-    margin-top: -10px;
-    margin-bottom: 10px;
-    display: block;
+.btnDanger {
+    background-color: transparent;
+    color: #d9534f;
+    border: 1px solid #ffe8ce;
+    padding: 12px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+}
+.btnDanger:hover {
+    background-color: #fff1f0;
 }
 
 /* --- Модальное окно --- */
-.modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
 .modalContent {
-    background-color: #fff6ec;
-    padding: 24px;
-    border-radius: 8px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 30px;
     width: 90%;
-    max-width: 400px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-width: 350px;
     text-align: center;
-    /* Вложенность SCSS */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
 }
 .modalContent h3 {
-    margin-top: 0;
-    color: #333;
+    color: #1d4a58;
 }
 .modalContent p {
-    color: #666;
-    margin-bottom: 24px;
+    color: #8c857d;
 }
 
 .modalButtons {
     display: flex;
-    justify-content: space-between;
-    gap: 16px;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
 }
-
-.btnCancel {
-    flex: 1;
-    background-color: #e0e0e0;
-    color: #333;
-    border: none;
+.modalButtons .btnCancel {
+    background: #f0f0f0;
+    border-radius: 50px;
     padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-.btnCancel:hover {
-    background-color: #d5d5d5;
-}
-
-.btnDanger {
-    flex: 1;
-    background-color: #ff4d4f;
-    color: white;
     border: none;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
 }
-.btnDanger:hover {
-    background-color: #d9363e;
+.modalButtons .btnCancel:hover {
+    background: #e0e0e0;
 } /*# sourceMappingURL=ProfilePage.module.css.map */

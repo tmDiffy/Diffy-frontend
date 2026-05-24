@@ -104,7 +104,7 @@
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    padding: 60px 20px;
+    padding: 60px 20px 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -122,4 +122,74 @@
         flex-direction: column;
         align-items: center;
     }
+}
+
+.actionButtons {
+    margin-top: 40px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.aiBtn {
+    width: 100%;
+    max-width: 200px;
+    height: 55px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    border: none;
+    color: #5d5349;
+    background: linear-gradient(90deg, #a8e0d5, #ffe5d4, #a8e0d5);
+    background-size: 200% auto;
+    transition: all 0.4s ease-in-out;
+}
+.aiBtn:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(168, 224, 213, 0.4);
+}
+.aiBtn:active {
+    transform: translateY(0);
+}
+
+.categoriesHeader {
+    margin-left: 70px; /* Компенсируем padding хедера */
+    display: flex;
+    justify-content: center; /* Выравнивает блок по центру, если категории по центру */
+    gap: 16px; /* Расстояние между списком категорий и плюсиком */
+    margin-bottom: 24px; /* Отступ до блока поиска */
+    width: 100%;
+}
+
+.arrowBtn {
+    margin-left: 10px;
+    margin-top: 4px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.637);
+    color: #0b5d72;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+.arrowBtn:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.836);
+}
+.arrowBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 } /*# sourceMappingURL=HomePage.module.css.map */

@@ -8,12 +8,15 @@ import { type Product } from "../../types/product";
 import { productService } from "../../api/services/product.service";
 import { toast } from "react-toastify";
 import AiModal from "../../components/AiModal/AiModal";
+import AdminModal from "../../components/AdminModal/AdminAddProductModal";
 
 import favOff from "../../assets/icons/Favourite_button.svg";
 import favOn from "../../assets/icons/Favourite_button_active.svg";
 import Plus from "../../assets/icons/Plus.svg";
 import CategoriesList from "../../features/Categories/CategoriesList";
 import type { Category } from "../../types/category";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
+import { useAuth } from "../../context/AuthContext";
 
 export function HomePage() {
     const { t } = useTranslation();
@@ -27,6 +30,8 @@ export function HomePage() {
     const [isFav, setIsFav] = useState(false);
     const [activeCategory, setActiveCategory] = useState<Category | null>(null);
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+    const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+    const { user } = useAuth();
     const navigate = useNavigate();
 
     const updateProduct = (index: number, id: number, name: string) => {
@@ -107,7 +112,17 @@ export function HomePage() {
     return (
         <main>
             <div className={styles.searchBlock}>
-                <CategoriesList onSelect={handleCategorySelect} />
+                <div className={styles.categoriesHeader}>
+                    <CategoriesList onSelect={handleCategorySelect} />
+                    {user?.is_staff && (
+                        <button
+                            onClick={() => setIsAdminModalOpen(true)}
+                            className={styles.arrowBtn}
+                        >
+                            +
+                        </button>
+                    )}
+                </div>
                 <div className={styles.searchContainer}>
                     <div className={styles.searchInputs}>
                         <Search
@@ -215,6 +230,12 @@ export function HomePage() {
                 isOpen={isAiModalOpen}
                 onClose={() => setIsAiModalOpen(false)}
                 productIds={compareData ? compareData.map((p) => p.id) : []}
+            />
+
+            <AdminModal
+                isOpen={isAdminModalOpen}
+                onClose={() => setIsAdminModalOpen(false)}
+                categories={["Смартфоны", "Ноутбуки", "Планшеты", "Консоли"]}
             />
         </main>
     );

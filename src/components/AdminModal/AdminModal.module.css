@@ -1,0 +1,136 @@
+@charset "UTF-8";
+/* Задний фон (затемнение и блюр) */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Сама карточка модалки */
+.modalContent {
+    background-color: #f4eae3; /* Мягкий бежевый цвет из твоего макета */
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.categoryBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Общие стили для полей ввода */
+.select,
+.input,
+.textarea {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background-color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+.select:focus,
+.input:focus,
+.textarea:focus {
+    border-color: #3a8d9b; /* Акцентный цвет при клике */
+}
+
+.textarea {
+    resize: vertical;
+    min-height: 150px;
+    font-family: monospace; /* Моноширинный шрифт, чтобы JSON было легче читать */
+}
+
+.toggleCategoryBtn {
+    background: transparent;
+    border: none;
+    color: #3a8d9b;
+    font-size: 13px;
+    cursor: pointer;
+    padding: 4px;
+}
+.toggleCategoryBtn:hover {
+    text-decoration: underline;
+}
+
+/* Сетка для нижней части (Предпросмотр слева, кнопки справа) */
+.bottomSection {
+    display: flex;
+    gap: 24px;
+    align-items: stretch; /* Растягиваем, чтобы кнопки центрировались по высоте картинки */
+    margin-top: 8px;
+}
+
+.previewBlock {
+    flex: 1;
+    background-color: #f4fbfb; /* Легкий голубоватый оттенок */
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+.previewBlock p {
+    margin: 0;
+    color: #3a8d9b;
+    font-weight: 500;
+}
+.previewBlock img {
+    max-height: 130px;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.actionButtons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    min-width: 140px;
+}
+
+/* Стили кнопок */
+.submitBtn,
+.cancelBtn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition:
+        transform 0.1s,
+        background-color 0.2s;
+    background-color: #fbe6d4; /* Цвет кнопок из макета */
+    color: #8c6e58;
+}
+.submitBtn:hover,
+.cancelBtn:hover {
+    background-color: #f5d6bc;
+}
+.submitBtn:active,
+.cancelBtn:active {
+    transform: scale(0.97);
+} /*# sourceMappingURL=AdminModal.module.css.map */

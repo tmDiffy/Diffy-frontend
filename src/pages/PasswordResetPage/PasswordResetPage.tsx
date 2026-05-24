@@ -8,7 +8,8 @@ import {
     passwordResetSchema,
     type PasswordResetFormValues,
 } from "../../utils/validations/auth.schemas";
-import "./PasswordResetPage.module.scss";
+
+import styles from "./PasswordResetPage.module.scss";
 
 export function PasswordResetPage() {
     const { t } = useTranslation();
@@ -35,14 +36,15 @@ export function PasswordResetPage() {
 
     if (submittedEmail) {
         return (
-            <div className="reset-container">
-                <div className="reset-content">
+            // 2. ОБРАЩАЕМСЯ К КЛАССАМ ЧЕРЕЗ styles[...]
+            <div className={styles["reset-container"]}>
+                <div className={styles["reset-content"]}>
                     <h2>Письмо отправлено!</h2>
                     <p>
                         Проверьте вашу почту {submittedEmail}. Мы отправили туда
                         ссылку для сброса пароля.
                     </p>
-                    <Link to="/login" className="auth__link">
+                    <Link to="/login" className={styles["auth__link"]}>
                         Вернуться к входу
                     </Link>
                 </div>
@@ -51,15 +53,12 @@ export function PasswordResetPage() {
     }
 
     return (
-        <div className="auth__inner">
-            {/* ... Картинка ... */}
-            <div className="auth__image">
-                <img
-                    src="../../../public/images/iPhone-17.png"
-                    alt="iPhone 17 Pro"
-                />
+        <div className={styles["auth__inner"]}>
+            <div className={styles["auth__image"]}>
+                {/* 3. ИСПРАВЛЕН ПУТЬ К КАРТИНКЕ */}
+                <img src="/images/iPhone-17.png" alt="iPhone 17 Pro" />
             </div>
-            <div className="auth__form">
+            <div className={styles["auth__form"]}>
                 <h1>{t("auth.resetTitle")}</h1>
                 <p>{t("auth.resetDescription")}</p>
 
@@ -70,13 +69,15 @@ export function PasswordResetPage() {
                         {...register("email")}
                     />
                     {errors.email && (
-                        <div className="error-text">
+                        <div className={styles["error-text"]}>
                             {t(errors.email.message as string)}
                         </div>
                     )}
 
                     {serverError && (
-                        <div className="error-message">{serverError}</div>
+                        <div className={styles["error-message"]}>
+                            {serverError}
+                        </div>
                     )}
 
                     <button type="submit" disabled={isSubmitting}>
