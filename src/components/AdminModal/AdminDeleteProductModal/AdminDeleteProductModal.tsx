@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./AdminDeleteModal.module.scss";
 import { toast } from "react-toastify";
-import { adminService } from "../../api/services/admin.service";
-import { productService } from "../../api/services/product.service";
-import type { Product } from "../../types/product";
+import { adminService } from "../../../api/services/admin.service";
+import { productService } from "../../../api/services/product.service";
+import type { Product } from "../../../types/product";
 
 interface AdminDeleteProductModalProps {
     isOpen: boolean;
@@ -141,7 +141,7 @@ export default function AdminDeleteProductModal({
                         <div className={styles.previewBlock}>
                             {selectedProduct.img && !imageError ? (
                                 <img
-                                    key={selectedProduct.id} // 👈 ВАЖНО: key принудительно перерендеривает изображение
+                                    key={selectedProduct.id}
                                     src={selectedProduct.img}
                                     alt={selectedProduct.name}
                                     onError={() => setImageError(true)}

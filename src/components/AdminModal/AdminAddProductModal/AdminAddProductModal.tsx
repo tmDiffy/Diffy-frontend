@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styles from "./AdminAddProductModal.module.scss";
 import { toast } from "react-toastify";
-import { adminService } from "../../api/services/admin.service";
-import type { Category } from "../../types/category";
+import { adminService } from "../../../api/services/admin.service";
+import type { Category } from "../../../types/category";
 
 interface AdminAddProductModalProps {
     isOpen: boolean;

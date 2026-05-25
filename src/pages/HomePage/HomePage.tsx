@@ -8,9 +8,9 @@ import { type Product } from "../../types/product";
 import { productService } from "../../api/services/product.service";
 import { toast } from "react-toastify";
 import AiModal from "../../components/AiModal/AiModal";
-import AdminAddProductModal from "../../components/AdminModal/AdminAddProductModal";
+import AdminAddProductModal from "../../components/AdminModal/AdminAddProductModal/AdminAddProductModal";
 import { adminService } from "../../api/services/admin.service";
-import AdminDeleteProductModal from "../../components/AdminModal/AdminDeleteProductModal";
+import AdminDeleteProductModal from "../../components/AdminModal/AdminDeleteProductModal/AdminDeleteProductModal";
 
 import favOff from "../../assets/icons/Favourite_button.svg";
 import favOn from "../../assets/icons/Favourite_button_active.svg";
