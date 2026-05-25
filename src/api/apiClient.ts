@@ -62,7 +62,23 @@ async function request<T>(
         throw new Error(errorData.detail || `Server error: ${response.status}`);
     }
 
-    return response.json();
+    // 👇 ГЛАВНОЕ ИЗМЕНЕНИЕ ТУТ 👇
+    // Проверяем, есть ли вообще тело ответа
+    const contentLength = response.headers.get("content-length");
+    const contentType = response.headers.get("content-type");
+
+    // Если нет тела (204 No Content) или тело пустое
+    if (response.status === 204 || contentLength === "0") {
+        return {} as T;
+    }
+
+    // Если ответ с JSON
+    if (contentType?.includes("application/json")) {
+        return response.json();
+    }
+
+    // Для других типов ответов
+    return {} as T;
 }
 
 export const apiClient = {
@@ -72,5 +88,5 @@ export const apiClient = {
             method: "POST",
             body: JSON.stringify(body),
         }),
-    delete: (url: string) => request(url, { method: "DELETE" }),
+    delete: <T>(url: string) => request<T>(url, { method: "DELETE" }),
 };
