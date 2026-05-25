@@ -4,17 +4,24 @@ import { useNavigate } from "react-router";
 
 export function useCurrentUser() {
     const [user, setUser] = useState<UserData | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
 
     const fetchUser = async () => {
         const token = localStorage.getItem("access_token");
-        if (!token) return;
+        if (!token) {
+            setIsLoading(false);
+            return;
+        }
         try {
             const data = await authService.getCurrentUser();
             setUser(data);
+            console.log("Текущий пользователь:", data);
         } catch (error) {
             localStorage.removeItem("access_token");
             setUser(null);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -29,5 +36,5 @@ export function useCurrentUser() {
         navigate("/");
     };
 
-    return { user, setUser, logout, fetchUser };
+    return { user, setUser, logout, fetchUser, isLoading };
 }

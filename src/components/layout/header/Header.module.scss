@@ -71,6 +71,24 @@
     }
 }
 
+.adminSection {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.iconAdmin {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+
+    
+    img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
 .userProfileContainer {
     flex-shrink: 0;
     position: relative;
@@ -81,37 +99,54 @@
 /* Выпадающее меню остается без изменений */
 .accountDropdown {
     position: absolute;
-    top: calc(100% + 20px); /* Отступ от плашки */
-    right:0px;
-    background-color: #32525c;
-    padding: 15px;
-    border-radius: 8px;
-    min-width: 200px;
+    top: calc(100% + 15px);
+    right: 0;
+    
+    // Глубокий, насыщенный темно-зеленый с легким теплым подтоном
+    background-color: #1d4a58; 
+    
+    padding: 10px 0;
+    border-radius: 20px;
+    min-width: 220px;
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    
+    // Тень теперь более мягкая, но глубокая
+    box-shadow: 0 10px 30px rgba(42, 74, 68, 0.3);
+    
+    // Добавляем чуть-чуть прозрачности для "современности" (glassmorphism)
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .dropdownEmail {
-    color: white;
-    font-size: 14px;
-    margin-bottom: 12px;
-    word-break: break-all;
+    color: rgba(255, 255, 255, 0.7); // Светлый, но не выжигающий глаза
+    font-size: 13px;
+    font-weight: 500;
+    padding: 5px 20px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 10px;
 }
 
 .dropdownItem {
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: white !important;
+    gap: 12px;
+    color: #ffffff !important;
     text-decoration: none;
-    padding: 8px 0;
+    padding: 10px 20px;
     font-size: 14px;
-    cursor: pointer;
+    transition: background 0.2s;
+    
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1); // Полупрозрачный фон при наведении
+    }
 }
 
 .dropdownIcon {
-    width: 20px;
-    filter: brightness(0) invert(1);
+    width: 18px;
+    filter: brightness(0) invert(1); // Иконки остаются белыми
+    opacity: 0.8;
 }
 
 .logoutBtn {
@@ -119,8 +154,12 @@
     border: none;
     width: 100%;
     text-align: left;
+    color: #ffb8b8 !important; // Мягкий пастельно-красный, чтобы не конфликтовать с зеленым
+    
+    &:hover {
+        background-color: rgba(255, 0, 0, 0.199);
+    }
 }
-
 .logoutIcon {
     display: flex;
     align-items: center;

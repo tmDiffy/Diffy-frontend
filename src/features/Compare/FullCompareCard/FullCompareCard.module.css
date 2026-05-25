@@ -11,7 +11,7 @@
     background-color: var(--color-soft_blue);
     color: white;
     min-height: 100vh;
-    padding: 2rem;
+    padding-top: 10rem;
     display: flex;
     justify-content: center;
 }
@@ -75,7 +75,6 @@
     height: 220px;
     background-color: white;
     border-radius: 12px;
-    padding: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -154,4 +153,31 @@
     color: #ff5252;
     background-color: rgba(255, 82, 82, 0.1);
     border: 1px solid rgba(255, 82, 82, 0.3);
+}
+
+.aiBtnWrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.aiBtnBig {
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    color: #5d5349;
+    background: linear-gradient(90deg, #a8e0d5, #ffe5d4, #a8e0d5);
+    background-size: 200% auto;
+    transition: all 0.4s ease-in-out;
+}
+.aiBtnBig:hover {
+    background-position: right center;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(168, 224, 213, 0.4);
+}
+.aiBtnBig:active {
+    transform: translateY(0);
 } /*# sourceMappingURL=FullCompareCard.module.css.map */

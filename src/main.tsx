@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import axios from "axios";
 import i18n from "./i18n";
+import { AuthProvider } from "./context/AuthContext.tsx";
 import "./theme/index.scss";
 
 axios.interceptors.request.use((config) => {
@@ -13,7 +14,9 @@ axios.interceptors.request.use((config) => {
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <Suspense fallback="<div>Loading...</div>">
-            <App />
+            <AuthProvider>
+                <App />
+            </AuthProvider>
         </Suspense>
     </StrictMode>,
 );

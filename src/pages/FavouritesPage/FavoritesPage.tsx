@@ -116,18 +116,6 @@ export function FavoritesPage() {
                                                     }
                                                 >
                                                     {renderProduct(p)}
-                                                    {idx === 0 &&
-                                                        prods.length === 2 && (
-                                                            <span
-                                                                className={
-                                                                    styles[
-                                                                        "vs-label"
-                                                                    ]
-                                                                }
-                                                            >
-                                                                VS
-                                                            </span>
-                                                        )}
                                                 </div>
                                             ))}
                                         </div>
@@ -138,13 +126,6 @@ export function FavoritesPage() {
                                         <>
                                             <div className={styles["row-top"]}>
                                                 {renderProduct(prods[0])}
-                                                <span
-                                                    className={
-                                                        styles["vs-label"]
-                                                    }
-                                                >
-                                                    VS
-                                                </span>
                                                 {renderProduct(prods[1])}
                                             </div>
                                             <div
