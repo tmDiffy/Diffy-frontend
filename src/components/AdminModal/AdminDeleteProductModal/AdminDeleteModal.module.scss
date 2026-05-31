@@ -1,0 +1,195 @@
+// AdminDeleteModal.module.scss
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #f4eae3;
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 550px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modalTitle {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+}
+
+// Поля ввода
+.input {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background-color: #ffffff;
+    font-family: inherit;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+        border-color: #3A8D9B;
+    }
+}
+
+// Блок поиска
+.searchBlock {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.searchBtn {
+    padding: 14px 24px;
+    background: #fbe6d4;
+    color: #8c6e58;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: all 0.2s;
+    
+    &:hover {
+        background-color: #f5d6bc;
+        transform: translateY(-1px);
+    }
+}
+
+// Метка для списка товаров
+.productsLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: #8c6e58;
+    margin-bottom: 8px;
+}
+
+// Список товаров - маленькие теги
+.productsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    max-height: 120px;
+    overflow-y: auto;
+    padding: 4px;
+}
+
+.productItem {
+    padding: 6px 14px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #555;
+    transition: all 0.2s;
+    white-space: nowrap;
+    
+    &:hover {
+        background: #e8f4f8;
+        border-color: #3A8D9B;
+        transform: translateY(-1px);
+    }
+}
+
+.productItemSelected {
+    background: #3A8D9B;
+    color: white;
+    border-color: #3A8D9B;
+    
+    &:hover {
+        background: #2c6e7a;
+    }
+}
+
+// Метка предпросмотра
+.previewLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: #8c6e58;
+    margin-bottom: 8px;
+}
+
+// Блок предпросмотра
+.previewBlock {
+    background-color: #f4fbfb;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 150px;
+    margin-bottom: 8px;
+
+    img {
+        max-height: 120px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+}
+
+// Кнопки действий
+.actionButtons {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+
+    button {
+        flex: 1;
+        padding: 12px 24px;
+        border-radius: 12px;
+        border: none;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+}
+
+.deleteBtn {
+    background-color: #fbe6d4;
+    color: #8c6e58;
+    
+    &:hover {
+        background-color: #f5d6bc;
+        transform: translateY(-1px);
+    }
+    
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+    }
+}
+
+.cancelBtn {
+    background-color: #fbe6d4;
+    color: #8c6e58;
+    
+    &:hover {
+        background-color: #f5d6bc;
+        transform: translateY(-1px);
+    }
+}

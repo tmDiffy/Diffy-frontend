@@ -8,7 +8,9 @@ import { type Product } from "../../types/product";
 import { productService } from "../../api/services/product.service";
 import { toast } from "react-toastify";
 import AiModal from "../../components/AiModal/AiModal";
-import AdminModal from "../../components/AdminModal/AdminAddProductModal";
+import AdminAddProductModal from "../../components/AdminModal/AdminAddProductModal/AdminAddProductModal";
+import { adminService } from "../../api/services/admin.service";
+import AdminDeleteProductModal from "../../components/AdminModal/AdminDeleteProductModal/AdminDeleteProductModal";
 
 import favOff from "../../assets/icons/Favourite_button.svg";
 import favOn from "../../assets/icons/Favourite_button_active.svg";
@@ -31,8 +33,52 @@ export function HomePage() {
     const [activeCategory, setActiveCategory] = useState<Category | null>(null);
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
     const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+    // ✅ Добавьте эту строку - состояние для списка категорий
+    const [categoriesList, setCategoriesList] = useState<Category[]>([]);
+
     const { user } = useAuth();
     const navigate = useNavigate();
+
+    // ✅ Добавьте useEffect для загрузки категорий
+    useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const categories = await productService.getAllCategories();
+                setCategoriesList(categories);
+            } catch (error) {
+                console.error("Failed to load categories:", error);
+            }
+        };
+        loadCategories();
+    }, []);
+
+    // ✅ Добавьте функцию для создания категории
+    const handleCreateCategory = async (name: string, charGroups: any[]) => {
+        try {
+            await adminService.createCategory({
+                name,
+                char_groups: charGroups,
+            });
+            toast.success("Категория успешно создана!");
+            // Обновляем список категорий
+            const updatedCategories = await productService.getAllCategories();
+            setCategoriesList(updatedCategories);
+        } catch (err: any) {
+            toast.error(err.message || "Ошибка при создании категории");
+            throw err; // Пробрасываем ошибку дальше
+        }
+    };
+
+    // ✅ Добавьте функцию для обновления после добавления товара
+    const handleProductAdded = async () => {
+        // Здесь можно обновить список товаров, если он нужен на главной
+        console.log("Товар добавлен, можно обновить список");
+        // Например, если у вас есть состояние для товаров:
+        // const updatedProducts = await productService.getAllProducts();
+        // setAllProducts(updatedProducts);
+    };
 
     const updateProduct = (index: number, id: number, name: string) => {
         const updated = [...products];
@@ -42,8 +88,6 @@ export function HomePage() {
 
     const selectedProducts = products.filter((p) => p.id !== 0);
 
-    // const hasDuplicates = new Set(selectedProducts.map((p) => p.id)).size !== selectedProducts.length;
-
     const handleCompare = async () => {
         const selectedIds = products.filter((p) => p.id !== 0).map((p) => p.id);
 
@@ -51,12 +95,6 @@ export function HomePage() {
             toast.warning(t("home.errorSelect"));
             return;
         }
-
-        /*
-    if (hasDuplicates) {
-      toast.warning("Вы выбрали одинаковые товары для сравнения");
-      return;
-    } */
 
         const toastId = toast.loading(
             t("home.loading") || "Загрузка сравнения...",
@@ -115,12 +153,21 @@ export function HomePage() {
                 <div className={styles.categoriesHeader}>
                     <CategoriesList onSelect={handleCategorySelect} />
                     {user?.is_staff && (
-                        <button
-                            onClick={() => setIsAdminModalOpen(true)}
-                            className={styles.arrowBtn}
-                        >
-                            +
-                        </button>
+                        <div className={styles.adminButtons}>
+                            <button
+                                onClick={() => setIsDeleteModalOpen(true)}
+                                className={styles.arrowBtn}
+                            >
+                                -
+                            </button>
+
+                            <button
+                                onClick={() => setIsAdminModalOpen(true)}
+                                className={styles.arrowBtn}
+                            >
+                                +
+                            </button>
+                        </div>
                     )}
                 </div>
                 <div className={styles.searchContainer}>
@@ -232,10 +279,20 @@ export function HomePage() {
                 productIds={compareData ? compareData.map((p) => p.id) : []}
             />
 
-            <AdminModal
+            <AdminAddProductModal
                 isOpen={isAdminModalOpen}
                 onClose={() => setIsAdminModalOpen(false)}
-                categories={["Смартфоны", "Ноутбуки", "Планшеты", "Консоли"]}
+                categories={categoriesList}
+                onProductAdded={handleProductAdded}
+                onCreateCategory={handleCreateCategory}
+            />
+
+            <AdminDeleteProductModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+                onProductDeleted={() => {
+                    console.log("Товар удален");
+                }}
             />
         </main>
     );

@@ -1,0 +1,274 @@
+/* Задний фон (затемнение и блюр) */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Сама карточка модалки */
+.modalContent {
+  background-color: #f4eae3; /* Мягкий бежевый цвет из твоего макета */
+  border-radius: 24px;
+  padding: 32px;
+  width: 100%;
+  max-width: 550px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.categoryBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Общие стили для полей ввода */
+.select, .input, .textarea {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    border-color: #3A8D9B; /* Акцентный цвет при клике */
+  }
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 150px;
+  font-family: monospace; /* Моноширинный шрифт, чтобы JSON было легче читать */
+}
+
+.toggleCategoryBtn {
+  background: transparent;
+  border: none;
+  color: #3A8D9B;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Сетка для нижней части (Предпросмотр слева, кнопки справа) */
+.bottomSection {
+  display: flex;
+  gap: 24px;
+  align-items: stretch; /* Растягиваем, чтобы кнопки центрировались по высоте картинки */
+  margin-top: 8px;
+}
+
+.previewBlock {
+  flex: 1;
+  background-color: #f4fbfb; /* Легкий голубоватый оттенок */
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  p {
+    margin: 0;
+    color: #3A8D9B;
+    font-weight: 500;
+  }
+
+  img {
+    max-height: 130px;
+    object-fit: contain;
+  }
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 140px;
+}
+
+/* Стили кнопок */
+.submitBtn, .cancelBtn {
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.1s, background-color 0.2s;
+  background-color: #fbe6d4; /* Цвет кнопок из макета */
+  color: #8c6e58;
+
+  &:hover {
+    background-color: #f5d6bc;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.modalTitle {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+}
+
+.previewBlock {
+    background-color: #f4fbfb;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+
+    p {
+        margin: 0;
+        color: #3A8D9B;
+        font-weight: 500;
+    }
+
+    img {
+        max-height: 150px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+}
+
+.actionButtons {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+
+    button {
+        flex: 1;
+    }
+}
+
+// В AdminModal.module.scss оставляем только нужные стили
+
+.templateSection {
+    margin: 12px 0;
+}
+
+.templateLabel {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.templateList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.templateListItem {
+    padding: 8px 16px;
+    background: #e8f4f8;
+    border: 1px solid #3A8D9B;
+    border-radius: 20px;
+    color: #3A8D9B;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+        background: #3A8D9B;
+        color: white;
+        transform: translateY(-1px);
+    }
+}
+
+.templateDisplayBlock {
+    margin: 12px 0;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.templateDisplayHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #e9ecef;
+    font-size: 14px;
+    font-weight: 500;
+    
+    .closeBtn {
+        background: none;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+        color: #666;
+        padding: 0 4px;
+        
+        &:hover {
+            color: #000;
+        }
+    }
+}
+
+.templateDisplayPre {
+    padding: 12px;
+    margin: 0;
+    font-size: 12px;
+    overflow-x: auto;
+    max-height: 300px;
+    background: white;
+    font-family: monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.previewBlock {
+    background-color: #f4fbfb;
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+
+    p {
+        margin: 0;
+        color: #3A8D9B;
+        font-weight: 500;
+    }
+
+    img {
+        max-height: 150px;
+        max-width: 100%;
+        object-fit: contain;
+    }
+}

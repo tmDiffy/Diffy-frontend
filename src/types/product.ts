@@ -1,6 +1,7 @@
 export type Product = {
     id: number;
     name: string;
+    category?: string;
     img?: string | null;
     characteristics_groups?: CharGroup[];
 };
