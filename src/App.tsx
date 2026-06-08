@@ -1,4 +1,3 @@
-import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./routes/AppRoutes";
 import Header from "./components/layout/header/Header";
 import Footer from "./components/layout/footer/Footer";
@@ -7,7 +6,7 @@ import "./theme/index.scss";
 
 function App() {
     return (
-        <BrowserRouter>
+        <>
             <Header />
             <main>
                 <ToastContainer
@@ -19,7 +18,7 @@ function App() {
                 <AppRoutes />
             </main>
             <Footer />
-        </BrowserRouter>
+        </>
     );
 }
 

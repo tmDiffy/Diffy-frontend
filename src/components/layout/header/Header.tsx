@@ -12,6 +12,7 @@ import Line from "../../../assets/icons/Line.svg";
 
 import styles from "./Header.module.scss";
 import { useAuth } from "../../../context/AuthContext";
+import { langService } from "../../../api/services/lang.service";
 
 export default function Header() {
     const { t, i18n } = useTranslation();
@@ -23,9 +24,16 @@ export default function Header() {
 
     useClickOutside(dropdownRef, () => setIsDropdownOpen(false));
 
-    const toggleLanguage = () => {
-        const newLang = i18n.language === "ru" ? "en" : "ru";
-        i18n.changeLanguage(newLang);
+    const toggleLanguage = async () => {
+        const currentLang = i18n.resolvedLanguage || i18n.language;
+        const newLang = currentLang === "ru" ? "en" : "ru";
+        console.log(newLang);
+        try {
+            await langService.postCurrentLanguage(newLang);
+            i18n.changeLanguage(newLang);
+        } catch (error: any) {
+            console.error(error);
+        }
     };
 
     const handleUserClick = (e: React.MouseEvent) => {

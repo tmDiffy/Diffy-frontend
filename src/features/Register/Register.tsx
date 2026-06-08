@@ -43,11 +43,8 @@ export function Register() {
         return (
             <main className={styles.resetContainer}>
                 <div className={styles.resetContent}>
-                    <h2>Письмо отправлено!</h2>
-                    <p>
-                        Проверьте вашу почту {submittedEmail}. Мы отправили туда
-                        ссылку.
-                    </p>
+                    <h2>{t("auth.registerSuccess")}</h2>
+                    <p>{t("auth.registerSuccessMessage")}</p>
                 </div>
             </main>
         );
@@ -139,15 +136,6 @@ export function Register() {
                             {isSubmitting
                                 ? "Загрузка..."
                                 : t("auth.createAccountButton")}
-                        </button>
-
-                        <button type="button" className={styles.btnGoogle}>
-                            <img
-                                src={googleIcon}
-                                alt="Google"
-                                className={styles.googleIcon}
-                            />
-                            {t("auth.googleButton")}
                         </button>
                     </form>
 

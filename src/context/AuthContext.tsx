@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { authService, type UserData } from "../api/services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext<any>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserData | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
 
     const refreshUser = async () => {
         setIsLoading(true);
@@ -28,6 +30,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         setUser(null);
+        navigate("/");
     };
 
     return (

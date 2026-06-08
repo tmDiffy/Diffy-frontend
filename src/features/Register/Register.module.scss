@@ -50,6 +50,10 @@
     box-sizing: border-box;
     overflow-y: auto;
 
+    @media (max-width: 768px) {
+        padding: 100px 1.5rem;
+    }
+
     h1 {
         font-size: 2.5rem;
         font-weight: 600;
@@ -193,12 +197,12 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-color: var(--color-soft_blue);
+    background-color: #1d4a58;
 }
 
 .resetContent {
-    background-color: var(--color-green);
-    color: white;
+    background-color: #fff0df;
+    color: #1d4a58;
     padding: 3rem;
     border-radius: 8px;
     text-align: center;
@@ -209,9 +213,52 @@
     }
 
     p {
-        color: #b0c4c8;
+        color: #1d4a58;
     }
 
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    background-color: #1d4a58; /* В цвет твоего дизайна */
+    color: #fff0df;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 96px;
+    margin: 0;
+    font-weight: 800;
+}
+
+.message {
+    font-size: 20px;
+    margin: 10px 0 30px;
+}
+
+.homeBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    padding: 0 30px;
+    background-color: #fff0df;
+    color: #1d4a58 !important;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: transform 0.2s, background-color 0.2s;
+
+    &:hover {
+        background-color: #f3d9c8;
+        transform: translateY(-2px);
+    }
 }
 .btnSubmit {
     width: 100%;

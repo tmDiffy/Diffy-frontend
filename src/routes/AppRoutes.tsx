@@ -8,6 +8,7 @@ import { ProfilePage } from "../pages/ProfilePage/ProfilePage";
 import { PasswordResetPage } from "../pages/PasswordResetPage/PasswordResetPage";
 import { ResetPasswordConfirmPage } from "../pages/ResetPasswordConfirmPage/ResetPasswordConfirmPage";
 import { ActivateAccountPage } from "../pages/ActivateAccountPage/ActivateAccountPage";
+import { ErrorPage } from "../pages/ErrorPage/ErrorPage";
 
 export const AppRoutes = () => {
     return (
@@ -27,6 +28,7 @@ export const AppRoutes = () => {
                 path="/activate/:uid/:token"
                 element={<ActivateAccountPage />}
             />
+            <Route path="*" element={<ErrorPage />} />
         </Routes>
     );
 };

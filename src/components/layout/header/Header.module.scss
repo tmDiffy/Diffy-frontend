@@ -1,7 +1,7 @@
 /* @use '../../../theme/styles/variables' as vars; */
 
 .mainHeader {
-    background: transparent; /* Убрали заливку всего хедера */
+    background: transparent;
     padding: 30px 60px; 
     min-height: 80px;
     display: flex;
@@ -11,6 +11,18 @@
     left: 0;
     right: 0;
     z-index: 1000;
+    box-sizing: border-box;
+
+    /* Адаптив хедера под планшеты и мобилки */
+    @media (max-width: 1024px) {
+        padding: 20px 40px;
+        min-height: 70px;
+    }
+
+    @media (max-width: 768px) {
+        padding: 12px 16px;
+        min-height: 60px;
+    }
 }
 
 .headerNav {
@@ -22,23 +34,43 @@
 
 .logoLink {
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+
+    img {
+        @media (max-width: 768px) {
+            height: 32px; /* Чуть уменьшаем логотип на мобилках */
+            width: auto;
+        }
+    }
 }
 
-/* Стилизация блока плашки (пилюли) */
+/* Блок плашки (пилюли) */
 .actionsPill {
     display: flex;
     align-items: center;
     gap: 20px;
-    background-color: #ffe8ce; /* Цвет переехал сюда */
+    background-color: #ffe8ce;
     padding: 10px 24px;
-    border-radius: 50px; /* Сильное закругление */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Легкая тень для плашки */
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+    /* Сужаем плашку на мобильных устройствах */
+    @media (max-width: 768px) {
+        gap: 14px;
+        padding: 8px 16px;
+    }
+
+    @media (max-width: 375px) {
+        gap: 10px;
+        padding: 6px 12px;
+    }
 }
 
-/* Сбросили старые грубые стили кнопки языка */
+/* Кнопка переключения языка */
 .langBtn {
     background: transparent;
-    color: #1d4a58; /* Цвет текста под иконки */
+    color: #1d4a58;
     border: none;
     font-weight: 600;
     font-size: 16px;
@@ -48,6 +80,10 @@
 
     &:hover {
         opacity: 0.7;
+    }
+
+    @media (max-width: 768px) {
+        font-size: 14px; /* Уменьшаем шрифт на мобилках */
     }
 }
 
@@ -59,11 +95,17 @@
     border: none;
     cursor: pointer;
     padding: 0;
+    flex-shrink: 0;
     
     img {
-        width: 32px; /* Чуть уменьшил, чтобы аккуратно смотрелось в плашке */
+        width: 32px;
         height: 32px;
         transition: transform 0.2s;
+
+        @media (max-width: 768px) {
+            width: 26px; /* Иконки делаем компактнее */
+            height: 26px;
+        }
     }
 
     &:hover img {
@@ -75,17 +117,32 @@
     display: flex;
     align-items: center;
     gap: 15px;
-}
-.iconAdmin {
-    display: flex;
-    align-items: center;
-    background: none;
-    border: none;
 
+    @media (max-width: 768px) {
+        gap: 8px;
+    }
+}
+
+/* ИСПРАВЛЕНО: Стили применяются сразу к тегу img, на котором висит класс */
+.iconAdmin {
+    width: 32px;
+    height: 32px;
+    display: block;
+    object-fit: contain;
+
+    @media (max-width: 768px) {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+/* Разделительная линия в админ-секции */
+.iconLine {
+    height: 24px;
+    width: auto;
     
-    img {
-        width: 32px;
-        height: 32px;
+    @media (max-width: 768px) {
+        height: 18px;
     }
 }
 
@@ -96,36 +153,38 @@
     align-items: center;
 }
 
-/* Выпадающее меню остается без изменений */
+/* Выпадающее меню */
 .accountDropdown {
     position: absolute;
     top: calc(100% + 15px);
     right: 0;
-    
-    // Глубокий, насыщенный темно-зеленый с легким теплым подтоном
     background-color: #1d4a58; 
-    
     padding: 10px 0;
     border-radius: 20px;
     min-width: 220px;
     z-index: 1000;
-    
-    // Тень теперь более мягкая, но глубокая
     box-shadow: 0 10px 30px rgba(42, 74, 68, 0.3);
-    
-    // Добавляем чуть-чуть прозрачности для "современности" (glassmorphism)
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media (max-width: 768px) {
+        min-width: 200px;
+        right: -6px; /* Чтобы меню не прижималось вплотную к краю экрана */
+        top: calc(100% + 10px);
+    }
 }
 
 .dropdownEmail {
-    color: rgba(255, 255, 255, 0.7); // Светлый, но не выжигающий глаза
+    color: rgba(255, 255, 255, 0.7);
     font-size: 13px;
     font-weight: 500;
     padding: 5px 20px;
     margin-bottom: 8px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Предотвратит разрыв длинного email */
+    white-space: nowrap;
 }
 
 .dropdownItem {
@@ -139,13 +198,13 @@
     transition: background 0.2s;
     
     &:hover {
-        background-color: rgba(255, 255, 255, 0.1); // Полупрозрачный фон при наведении
+        background-color: rgba(255, 255, 255, 0.1);
     }
 }
 
 .dropdownIcon {
     width: 18px;
-    filter: brightness(0) invert(1); // Иконки остаются белыми
+    filter: brightness(0) invert(1);
     opacity: 0.8;
 }
 
@@ -154,12 +213,14 @@
     border: none;
     width: 100%;
     text-align: left;
-    color: #ffb8b8 !important; // Мягкий пастельно-красный, чтобы не конфликтовать с зеленым
+    color: #ffb8b8 !important;
+    cursor: pointer;
     
     &:hover {
         background-color: rgba(255, 0, 0, 0.199);
     }
 }
+
 .logoutIcon {
     display: flex;
     align-items: center;

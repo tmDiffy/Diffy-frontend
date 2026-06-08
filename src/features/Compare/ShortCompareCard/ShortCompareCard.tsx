@@ -1,5 +1,6 @@
 import styles from "./ShortCompareCard.module.scss";
 import { type Product } from "../../../types/product";
+import { useTranslation } from "react-i18next";
 
 type Props = {
     data: Product;
@@ -7,6 +8,7 @@ type Props = {
 };
 
 export default function ShortCompareCard({ data, index = 0 }: Props) {
+    const { t } = useTranslation();
     if (!data) return null;
 
     const isLightCard = index % 2 !== 0;
@@ -27,7 +29,7 @@ export default function ShortCompareCard({ data, index = 0 }: Props) {
             </div>
 
             <h3 className={styles.title}>{data.name}</h3>
-            <h4 className={styles.subtitle}>Характеристики</h4>
+            <h4 className={styles.subtitle}>{t("card.charHeader")}</h4>
 
             <div className={styles.characteristicsList}>
                 {data.characteristics_groups?.map((group) => (
