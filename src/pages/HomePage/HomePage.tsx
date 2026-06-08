@@ -12,36 +12,39 @@ import AdminAddProductModal from "../../components/AdminModal/AdminAddProductMod
 import { adminService } from "../../api/services/admin.service";
 import AdminDeleteProductModal from "../../components/AdminModal/AdminDeleteProductModal/AdminDeleteProductModal";
 
-import favOff from "../../assets/icons/Favourite_button.svg";
-import favOn from "../../assets/icons/Favourite_button_active.svg";
+import favOff from "../../assets/icons/FavOff.svg";
+import favOn from "../../assets/icons/FavOn.svg";
 import Plus from "../../assets/icons/Plus.svg";
 import CategoriesList from "../../features/Categories/CategoriesList";
 import type { Category } from "../../types/category";
-import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useAuth } from "../../context/AuthContext";
+import { useCompare } from "../../context/CompareContext";
 
 export function HomePage() {
-    const { t } = useTranslation();
-    const [products, setProducts] = useState<Product[]>([
-        { id: 0, name: "" },
-        { id: 0, name: "" },
-        { id: 0, name: "" },
-    ]);
+    const { t, i18n } = useTranslation();
 
-    const [compareData, setCompareData] = useState<any[] | null>(null);
-    const [isFav, setIsFav] = useState(false);
-    const [activeCategory, setActiveCategory] = useState<Category | null>(null);
+    const {
+        products,
+        setProducts,
+        compareData,
+        setCompareData,
+        activeCategory,
+        setActiveCategory,
+        compareTrigger,
+        setCompareTrigger,
+    } = useCompare();
+
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
     const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-    // ✅ Добавьте эту строку - состояние для списка категорий
     const [categoriesList, setCategoriesList] = useState<Category[]>([]);
+
+    const [isFav, setIsFav] = useState(false);
 
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    // ✅ Добавьте useEffect для загрузки категорий
+    // 1. Загрузка категорий с привязкой к языку
     useEffect(() => {
         const loadCategories = async () => {
             try {
@@ -52,9 +55,8 @@ export function HomePage() {
             }
         };
         loadCategories();
-    }, []);
+    }, [i18n.language]);
 
-    // ✅ Добавьте функцию для создания категории
     const handleCreateCategory = async (name: string, charGroups: any[]) => {
         try {
             await adminService.createCategory({
@@ -62,22 +64,16 @@ export function HomePage() {
                 char_groups: charGroups,
             });
             toast.success("Категория успешно создана!");
-            // Обновляем список категорий
             const updatedCategories = await productService.getAllCategories();
             setCategoriesList(updatedCategories);
         } catch (err: any) {
             toast.error(err.message || "Ошибка при создании категории");
-            throw err; // Пробрасываем ошибку дальше
+            throw err;
         }
     };
 
-    // ✅ Добавьте функцию для обновления после добавления товара
     const handleProductAdded = async () => {
-        // Здесь можно обновить список товаров, если он нужен на главной
         console.log("Товар добавлен, можно обновить список");
-        // Например, если у вас есть состояние для товаров:
-        // const updatedProducts = await productService.getAllProducts();
-        // setAllProducts(updatedProducts);
     };
 
     const updateProduct = (index: number, id: number, name: string) => {
@@ -88,33 +84,44 @@ export function HomePage() {
 
     const selectedProducts = products.filter((p) => p.id !== 0);
 
-    const handleCompare = async () => {
+    // Кнопка теперь инкрементирует счетчик, заставляя useEffect сработать
+    const handleCompare = () => {
         const selectedIds = products.filter((p) => p.id !== 0).map((p) => p.id);
-
         if (selectedIds.length === 0) {
             toast.warning(t("home.errorSelect"));
             return;
         }
-
-        const toastId = toast.loading(
-            t("home.loading") || "Загрузка сравнения...",
-        );
-
-        try {
-            const data = await productService.compare(selectedIds);
-            setCompareData(data);
-            setIsFav(false);
-
-            toast.dismiss(toastId);
-        } catch (err: any) {
-            toast.update(toastId, {
-                render: t("home.errorLoad"),
-                type: "error",
-                isLoading: false,
-                autoClose: 3000,
-            });
-        }
+        setCompareTrigger((prev) => prev + 1);
     };
+
+    // 2. Эффект для запроса сравнения (срабатывает при клике ИЛИ при смене языка)
+    useEffect(() => {
+        const selectedIds = products.filter((p) => p.id !== 0).map((p) => p.id);
+
+        // Если еще ни разу не нажимали кнопку сравнения — ничего не делаем
+        if (selectedIds.length === 0 || compareTrigger === 0) return;
+
+        const fetchCompareData = async () => {
+            const toastId = toast.loading(
+                t("home.loading") || "Загрузка сравнения...",
+            );
+            try {
+                const data = await productService.compare(selectedIds);
+                setCompareData(data);
+                setIsFav(false);
+                toast.dismiss(toastId);
+            } catch (err: any) {
+                toast.update(toastId, {
+                    render: t("home.errorLoad"),
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 3000,
+                });
+            }
+        };
+
+        fetchCompareData();
+    }, [i18n.language, compareTrigger]); // Реагирует и на смену языка, и на изменение счетчика кликов
 
     const compareRef = useRef<HTMLDivElement | null>(null);
 
@@ -129,12 +136,19 @@ export function HomePage() {
 
     const handleSaveToFavorites = async () => {
         if (!compareData) return;
+        if (!user) {
+            toast.warning(
+                t("auth.loginRequired") ||
+                    "Войдите в аккаунт, чтобы добавить в избранное",
+            );
 
+            navigate("/login", { state: { from: "/" } });
+            return;
+        }
         try {
             const ids = compareData.map((p: any) => p.id);
             await productService.saveToFavorites(ids);
             setIsFav(true);
-
             toast.success(t("home.alertSaved"));
         } catch (err: any) {
             toast.error(t("home.alertSaveError"));
@@ -148,27 +162,10 @@ export function HomePage() {
     };
 
     return (
-        <main>
+        <main className={styles.home}>
             <div className={styles.searchBlock}>
                 <div className={styles.categoriesHeader}>
                     <CategoriesList onSelect={handleCategorySelect} />
-                    {user?.is_staff && (
-                        <div className={styles.adminButtons}>
-                            <button
-                                onClick={() => setIsDeleteModalOpen(true)}
-                                className={styles.arrowBtn}
-                            >
-                                -
-                            </button>
-
-                            <button
-                                onClick={() => setIsAdminModalOpen(true)}
-                                className={styles.arrowBtn}
-                            >
-                                +
-                            </button>
-                        </div>
-                    )}
                 </div>
                 <div className={styles.searchContainer}>
                     <div className={styles.searchInputs}>
@@ -231,21 +228,26 @@ export function HomePage() {
                         className={styles.compareResults}
                         style={{ position: "relative", paddingBottom: "50px" }}
                     >
-                        <button
-                            className={styles.favBtnMain}
-                            onClick={handleSaveToFavorites}
-                        >
-                            <img src={isFav ? favOn : favOff} alt="heart" />
-                        </button>
+                        <div className={styles.favBtnWrapper}>
+                            <button
+                                className={styles.favBtnMain}
+                                onClick={handleSaveToFavorites}
+                            >
+                                <img src={isFav ? favOn : favOff} alt="heart" />
+                            </button>
+                        </div>
 
-                        <div className={styles.compareCardsFlex}>
-                            {compareData.map((item, index) => (
-                                <ShortCompareCard
-                                    key={index}
-                                    data={item}
-                                    index={index}
-                                />
-                            ))}
+                        {/* ДОБАВЛЕНА ОБЕРТКА ДЛЯ СКРОЛЛА */}
+                        <div className={styles.cardsScrollWrapper}>
+                            <div className={styles.compareCardsFlex}>
+                                {compareData.map((item, index) => (
+                                    <ShortCompareCard
+                                        key={index}
+                                        data={item}
+                                        index={index}
+                                    />
+                                ))}
+                            </div>
                         </div>
 
                         {compareData.length >= 2 && (

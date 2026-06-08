@@ -1,4 +1,5 @@
 const BASE_URL = "http://100.105.194.90:8000/api";
+import i18n from "../i18n";
 
 async function request<T>(
     endpoint: string,
@@ -7,6 +8,7 @@ async function request<T>(
     const token = localStorage.getItem("access_token");
     const headers: HeadersInit = {
         "Content-Type": "application/json",
+        "Accept-Language": i18n.language || "ru",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...options.headers,
     };
@@ -62,7 +64,6 @@ async function request<T>(
         throw new Error(errorData.detail || `Server error: ${response.status}`);
     }
 
-    // 👇 ГЛАВНОЕ ИЗМЕНЕНИЕ ТУТ 👇
     // Проверяем, есть ли вообще тело ответа
     const contentLength = response.headers.get("content-length");
     const contentType = response.headers.get("content-type");

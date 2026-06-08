@@ -5,6 +5,8 @@ import axios from "axios";
 import i18n from "./i18n";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import "./theme/index.scss";
+import { CompareProvider } from "./context/CompareContext.tsx";
+import { BrowserRouter } from "react-router-dom";
 
 axios.interceptors.request.use((config) => {
     config.headers["Accept-Language"] = i18n.language;
@@ -14,9 +16,13 @@ axios.interceptors.request.use((config) => {
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
         <Suspense fallback="<div>Loading...</div>">
-            <AuthProvider>
-                <App />
-            </AuthProvider>
+            <BrowserRouter>
+                <AuthProvider>
+                    <CompareProvider>
+                        <App />
+                    </CompareProvider>
+                </AuthProvider>
+            </BrowserRouter>
         </Suspense>
     </StrictMode>,
 );

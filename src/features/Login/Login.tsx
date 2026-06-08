@@ -9,13 +9,13 @@ import {
     type LoginFormValues,
 } from "../../utils/validations/auth.schemas";
 import styles from "./Login.module.scss";
-import { useCurrentUser } from "../../hooks/useCurrentUser";
 import { useAuth } from "../../context/AuthContext";
+import { useEffect } from "react";
 
 export function Login() {
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const { fetchUser } = useCurrentUser();
+    const { user } = useAuth();
     const { refreshUser } = useAuth();
 
     const {

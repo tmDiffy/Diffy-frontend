@@ -12,11 +12,13 @@ import {
 
 // 1. Правильный импорт
 import styles from "./ProfilePage.module.scss";
+import { useNavigate } from "react-router-dom";
 
 export function ProfilePage() {
     const { user, logout } = useCurrentUser();
     const { t } = useTranslation();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const navigate = useNavigate();
 
     const {
         register,

@@ -2,33 +2,47 @@ import { useEffect, useState } from "react";
 import styles from "./CategoriesList.module.scss";
 import { productService } from "../../api/services/product.service";
 import type { Category } from "../../types/category";
+import { useTranslation } from "react-i18next";
+import { useCompare } from "../../context/CompareContext"; // Используем контекст
 
 type CategoriesListProps = {
     onSelect: (category: Category | null) => void;
 };
 
 export default function CategoriesList({ onSelect }: CategoriesListProps) {
-    const [activeCategory, setActiveCategory] = useState<Category | null>(null);
+    const { i18n } = useTranslation();
+
+    // Синхронизируем с контекстом, чтобы состояние не терялось
+    const { activeCategory, setActiveCategory } = useCompare();
+
     const [categories, setCategories] = useState<Category[]>([]);
     const [startIndex, setStartIndex] = useState(0);
-
-    // 1. Добавляем стейт для отслеживания загрузки
     const [isLoading, setIsLoading] = useState(true);
 
-    const visibleCount = 4;
+    // Динамический расчет видимых элементов в зависимости от экрана
+    const [visibleCount, setVisibleCount] = useState(4);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 480) setVisibleCount(1);
+            else if (window.innerWidth <= 768) setVisibleCount(2);
+            else if (window.innerWidth <= 1024) setVisibleCount(3);
+            else setVisibleCount(4);
+        };
+
+        handleResize(); // Инициализация
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     const maxIndex = Math.max(0, categories.length - visibleCount);
 
     const handlePrev = () => {
-        setStartIndex((prev) => {
-            const nextValue = prev - visibleCount;
-            return nextValue < 0 ? maxIndex : nextValue;
-        });
+        setStartIndex((prev) => Math.max(0, prev - 1));
     };
+
     const handleNext = () => {
-        setStartIndex((prev) => {
-            const nextValue = prev + visibleCount;
-            return nextValue > maxIndex ? 0 : nextValue;
-        });
+        setStartIndex((prev) => Math.min(maxIndex, prev + 1));
     };
 
     useEffect(() => {
@@ -46,12 +60,29 @@ export default function CategoriesList({ onSelect }: CategoriesListProps) {
         };
 
         fetchCategories();
-    }, []);
+    }, [i18n.language]);
+
+    // При изменении размера экрана сбрасываем индекс, чтобы верстка не улетала
+    useEffect(() => {
+        if (startIndex > maxIndex) {
+            setStartIndex(maxIndex);
+        }
+    }, [visibleCount, maxIndex, startIndex]);
+
+    const handleCategoryClick = (category: Category) => {
+        if (activeCategory?.id === category.id) {
+            setActiveCategory(null);
+            onSelect(null);
+        } else {
+            setActiveCategory(category);
+            onSelect(category);
+        }
+    };
 
     return (
         <div className={styles.wrapper}>
             <button
-                className={styles.arrowBtn}
+                className={`${styles.arrowBtn} ${styles.prevBtn}`}
                 onClick={handlePrev}
                 disabled={startIndex === 0 || isLoading}
                 aria-label="Назад"
@@ -63,53 +94,56 @@ export default function CategoriesList({ onSelect }: CategoriesListProps) {
                 <ul
                     className={styles.list}
                     style={{
-                        transform: `translateX(calc(-${startIndex} * ((100% + 12px) / ${visibleCount})))`,
+                        transform: `translateX(calc(-${startIndex} * (100% / ${visibleCount})))`,
                     }}
                 >
                     {isLoading
-                        ? Array.from({ length: visibleCount }).map(
-                              (_, index) => (
-                                  <li
-                                      key={`skeleton-${index}`}
-                                      className={styles.listItem}
-                                  >
+                        ? Array.from({ length: 4 }).map((_, index) => (
+                              <li
+                                  key={`skeleton-${index}`}
+                                  className={styles.listItem}
+                                  style={{
+                                      flex: `0 0 calc(100% / ${visibleCount})`,
+                                  }}
+                              >
+                                  <div className={styles.paddingWrapper}>
                                       <div
                                           className={`${styles.categoryBtn} ${styles.skeleton}`}
                                       ></div>
-                                  </li>
-                              ),
-                          )
+                                  </div>
+                              </li>
+                          ))
                         : categories.map((category) => (
-                              <li key={category.id} className={styles.listItem}>
-                                  <button
-                                      className={`${styles.categoryBtn} ${
-                                          activeCategory?.id === category.id
-                                              ? styles.active
-                                              : ""
-                                      }`}
-                                      onClick={() => {
-                                          if (
+                              <li
+                                  key={category.id}
+                                  className={styles.listItem}
+                                  style={{
+                                      flex: `0 0 calc(100% / ${visibleCount})`,
+                                  }}
+                              >
+                                  <div className={styles.paddingWrapper}>
+                                      <button
+                                          className={`${styles.categoryBtn} ${
                                               activeCategory?.id === category.id
-                                          ) {
-                                              setActiveCategory(null);
-                                              onSelect(null);
-                                          } else {
-                                              setActiveCategory(category);
-                                              onSelect(category);
+                                                  ? styles.active
+                                                  : ""
+                                          }`}
+                                          onClick={() =>
+                                              handleCategoryClick(category)
                                           }
-                                      }}
-                                  >
-                                      {category.name}
-                                  </button>
+                                      >
+                                          {category.name}
+                                      </button>
+                                  </div>
                               </li>
                           ))}
                 </ul>
             </div>
 
             <button
-                className={styles.arrowBtn}
+                className={`${styles.arrowBtn} ${styles.nextBtn}`}
                 onClick={handleNext}
-                disabled={startIndex === maxIndex || isLoading}
+                disabled={startIndex >= maxIndex || isLoading}
                 aria-label="Вперед"
             >
                 &gt;

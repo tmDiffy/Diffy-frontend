@@ -1,42 +1,130 @@
 import styles from "./FullCompareCard.module.scss";
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom"; // Добавили useNavigate
 import { type Product } from "../../../types/product";
 import AiModal from "../../../components/AiModal/AiModal";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
+import { productService } from "../../../api/services/product.service";
+import { toast } from "react-toastify";
+import { useCompare } from "../../../context/CompareContext";
+import { useAuth } from "../../../context/AuthContext"; // Добавили useAuth
 
-// Раскомментируйте, если будете использовать кнопки избранного
-// import favOff from "../../../assets/icons/Favourite_button.svg";
-// import favOn from "../../../assets/icons/Favourite_button_active.svg";
+// Импорт иконок
+import favOff from "../../../assets/icons/FavOff.svg";
+import favOn from "../../../assets/icons/FavOn.svg";
 
 export function FullCompareCard() {
+    const { t, i18n } = useTranslation();
     const { state } = useLocation();
-    const products: Product[] = state?.products || [];
+    const navigate = useNavigate();
+    const { user } = useAuth();
 
-    const [isFav, setIsFav] = useState(false);
+    const { compareData, setCompareData } = useCompare();
     const [isAiModalOpen, setIsAiModalOpen] = useState(false);
+    const [isFav, setIsFav] = useState(false); // Состояние избранного
+
+    const products: Product[] = compareData || state?.products || [];
+
+    useEffect(() => {
+        if (!products.length) return;
+
+        const refreshCompareData = async () => {
+            const productIds = products.map((p) => p.id);
+            const toastId = toast.loading(
+                t("home.loading") || "Обновление языка...",
+            );
+
+            try {
+                const updatedData = await productService.compare(productIds);
+                setCompareData(updatedData);
+                setIsFav(false); // Сбрасываем иконку при обновлении данных/смене языка
+                toast.dismiss(toastId);
+            } catch (err) {
+                console.error("Failed to refresh localized data:", err);
+                toast.update(toastId, {
+                    render: t("home.errorLoad") || "Ошибка обновления данных",
+                    type: "error",
+                    isLoading: false,
+                    autoClose: 3000,
+                });
+            }
+        };
+
+        refreshCompareData();
+    }, [i18n.language]);
+
+    // Функция сохранения в избранное
+    const handleSaveToFavorites = async () => {
+        if (!products.length) return;
+        if (!user) {
+            toast.warning(
+                t("auth.loginRequired") ||
+                    "Войдите в аккаунт, чтобы добавить в избранное",
+            );
+            navigate("/login", { state: { from: window.location.pathname } });
+            return;
+        }
+        try {
+            const ids = products.map((p) => p.id);
+            await productService.saveToFavorites(ids);
+            setIsFav(true);
+            toast.success(
+                t("home.alertSaved") || "Успешно сохранено в избранное!",
+            );
+        } catch (err: any) {
+            toast.error(t("home.alertSaveError") || "Ошибка при сохранении");
+        }
+    };
+
+    const dynamicSections = useMemo(() => {
+        if (!products.length) return [];
+        const groupsMap: { [key: string]: Set<string> } = {};
+
+        products.forEach((product) => {
+            product.characteristics_groups?.forEach((group) => {
+                if (!groupsMap[group.name]) {
+                    groupsMap[group.name] = new Set<string>();
+                }
+                group.characteristics?.forEach((char) => {
+                    groupsMap[group.name].add(char.name);
+                });
+            });
+        });
+
+        return Object.entries(groupsMap).map(([title, fieldsSet]) => ({
+            title,
+            fields: Array.from(fieldsSet),
+        }));
+    }, [products]);
 
     if (!products.length) {
-        return <p className={styles.noData}>Нет данных для сравнения</p>;
+        return <p className={styles.noData}>{t("home.noData")}</p>;
     }
 
-    const getChar = (product: Product, charName: string) => {
+    const getChar = (product: Product, groupName: string, charName: string) => {
+        const group = product.characteristics_groups?.find(
+            (g) => g.name === groupName,
+        );
         return (
-            product.characteristics_groups
-                ?.flatMap((g) => g.characteristics)
-                .find((c) => c.name === charName)?.value || "—"
+            group?.characteristics?.find((c) => c.name === charName)?.value ||
+            "—"
         );
     };
 
     function parseValue(str: string): number | null {
-        if (!str) return null;
-        const n = parseFloat(str.replace(",", "."));
+        if (!str || str === "—") return null;
+        const cleaned = str.replace(/[^0-9.,]/g, "").replace(",", ".");
+        const n = parseFloat(cleaned);
         return isNaN(n) ? null : n;
     }
 
-    function getBestWorst(products: Product[], field: string) {
+    function getBestWorst(
+        products: Product[],
+        groupName: string,
+        field: string,
+    ) {
         const list = products.map((p) => {
-            const raw = getChar(p, field);
+            const raw = getChar(p, groupName, field);
             const num = parseValue(raw);
             return { id: p.id, raw, num };
         });
@@ -58,49 +146,20 @@ export function FullCompareCard() {
         };
     }
 
-    const sections = [
-        {
-            title: "Размеры",
-            fields: ["Ширина", "Высота", "Толщина", "Вес"],
-        },
-        {
-            title: "Корпус",
-            fields: [
-                "Материал задней панели",
-                "Материал граней",
-                "Пыле-влагозащита",
-            ],
-        },
-        {
-            title: "Дисплей",
-            fields: [
-                "Тип экрана",
-                "Диагональ экрана",
-                "Разрешение экрана",
-                "Частота экрана",
-                "Яркость экрана",
-                "Плотность пикселей",
-                "Соотношение сторон",
-            ],
-        },
-        {
-            title: "Процессор",
-            fields: ["Модель процессора", "Количество ядер"],
-        },
-        { title: "Батарея", fields: ["Аккумулятор"] },
-        {
-            title: "Основная камера",
-            fields: ["Количество камер", "Количество мегапикселей"],
-        },
-        { title: "Фронтальная камера", fields: ["Фронтальная камера"] },
-        { title: "Операционная система", fields: ["Операционная система"] },
-        { title: "Bluetooth", fields: ["Bluetooth"] },
-    ];
-
     return (
         <main className={styles.comparePage}>
-            {/* Обертка для горизонтального скролла на мобильных */}
+            {/* Кнопка добавлена над скролл-контейнером, чтобы оставаться на месте */}
+            <div className={styles.favBtnWrapper}>
+                <button
+                    className={styles.favBtnMain}
+                    onClick={handleSaveToFavorites}
+                >
+                    <img src={isFav ? favOn : favOff} alt="heart" />
+                </button>
+            </div>
+
             <div className={styles.scrollWrapper}>
+                {/* Шапка таблицы */}
                 <div className={styles.cards}>
                     <div className={styles.description}>
                         {products.map((p) => (
@@ -124,9 +183,10 @@ export function FullCompareCard() {
                     </div>
                 </div>
 
+                {/* Тело таблицы */}
                 <div className={styles.full}>
                     <div className={styles.fullCard}>
-                        {sections.map((section) => (
+                        {dynamicSections.map((section) => (
                             <div key={section.title} className={styles.section}>
                                 <div className={styles.mainCharHeader}>
                                     <h2>{section.title}</h2>
@@ -135,6 +195,7 @@ export function FullCompareCard() {
                                 {section.fields.map((field) => {
                                     const { maxIds, minIds } = getBestWorst(
                                         products,
+                                        section.title,
                                         field,
                                     );
 
@@ -146,14 +207,15 @@ export function FullCompareCard() {
                                             <h4 className={styles.charHeader}>
                                                 {field}
                                             </h4>
+
                                             <div className={styles.char}>
                                                 {products.map((p) => {
                                                     const value = getChar(
                                                         p,
+                                                        section.title,
                                                         field,
                                                     );
 
-                                                    // Собираем классы
                                                     let valueClass =
                                                         styles.charValue;
                                                     if (maxIds.includes(p.id))
@@ -186,7 +248,7 @@ export function FullCompareCard() {
                         className={styles.aiBtnBig}
                         onClick={() => setIsAiModalOpen(true)}
                     >
-                        {t("AI.ask")}
+                        {t("AI.ask") || "Спросить ИИ"}
                     </button>
                 </div>
             </div>
