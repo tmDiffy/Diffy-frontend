@@ -1,20 +1,44 @@
 @use "../../theme/styles/variables" as vars;
 
+.home {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 .searchBlock {
-    min-height: 80vh;
+    min-height: 85vh;
     background: no-repeat top center/cover url("/images/body-bg.png");
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 140px; /* Высота хедера 80px + паддинги 30px сверху и снизу */
+    padding-top: 140px; /* Высота хедера + отступы */
+    width: 100%;
+    box-sizing: border-box;
 
     @media (max-width: 1024px) {
-        padding-top: 110px; /* 70px + паддинги по 20px */
+        padding-top: 110px;
     }
 
     @media (max-width: 768px) {
-        padding-top: 84px; /* 60px + паддинги по 12px */
+        padding-top: 84px;
+        min-height: auto;
+        padding-bottom: 40px;
+    }
+}
+
+/* Контейнер шапки категорий (теперь он просто аккуратно центрирует карусель) */
+.categoriesHeader {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    padding: 0 20px;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        margin-bottom: 16px;
     }
 }
 
@@ -22,148 +46,150 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 25px;
     width: 100%;
-    max-width: 1200px;
-    padding: 0 20px; /* Защита от прилипания к краям экрана на мобилках */
+    max-width: 600px; /* Ограничиваем ширину инпутов для красоты на десктопе */
+    padding: 0 20px;
     box-sizing: border-box;
-
-    input::placeholder {
-        overflow: visible;
-    }
-
-    @media (max-width: 1024px) {
-        input {
-            height: 65px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        font-size: 14px;
-        input {
-            height: 55px;
-        }
-    }
 }
 
 .searchInputs {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     width: 100%;
+}
+
+/* Иконка плюса между инпутами */
+.plusIcon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    
+    img {
+        width: 24px;
+        height: 24px;
+        opacity: 0.6;
+    }
+}
+
+.compareButtonWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
 }
 
 .mainCompareBtn,
 .moreBtn {
     width: 100%;
     max-width: 200px;
-    height: 55px;
+    height: 50px;
     border: none;
     background: #f7e1ca;
     color: #72675b;
     font-size: 16px;
-    font-weight: 500;
-    border-radius: 10px;
+    font-weight: 600;
+    border-radius: 50px; /* Сделали закругленной под общий стиль pill-плашек */
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 auto;
-    padding: 15px;
+    padding: 0 24px;
 
-    &:enabled {
+    &:hover:enabled {
         background-color: #fff0df;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     &:disabled {
-        opacity: 0.6;
+        opacity: 0.5;
         cursor: not-allowed;
+    }
+}
+
+/* Секция результатов сравнения */
+.cardsBg {
+    background: no-repeat center/cover url("/images/cards-bg.png");
+    width: 100%;
+}
+
+.compareResults {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Плашка Избранного */
+.favBtnWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffe8ce;
+    padding: 10px;
+    border-radius: 50%; /* Сделали ровный круг вокруг сердечка */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    align-self: flex-end; /* На ПК прижата к правому краю */
+    margin-bottom: 20px;
+    width: 44px;
+    height: 44px;
+    box-sizing: border-box;
+
+    @media (max-width: 1024px) {
+        align-self: center; /* На планшетах и мобилках по центру */
+        margin-bottom: 15px;
     }
 }
 
 .favBtnMain {
     all: unset;
     cursor: pointer;
-    z-index: 10;
-    transition: transform 0.2s ease;
-    padding-top: 4px;
-
-    &:hover {
-        transform: scale(1.1);
-        background: none !important;
-    }
-
-    img {
-        width: 40px;
-        height: 40px;
-
-        @media (max-width: 768px) {
-            width: 32px;
-            height: 32px;
-        }
-    }
-}
-
-.cardsBg {
-    background: no-repeat center/cover url("/images/cards-bg.png");
-}
-
-.compareResults {
-    position: relative;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 40px 20px 50px; /* Немного уменьшили верхний паддинг */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-sizing: border-box;
-}
-
-/* Кнопка теперь ВСЕГДА в потоке документа */
-.favBtnWrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    background-color: #ffe8ce;
-    padding: 12px 24px;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
 
-    /* Прижимаем плашку к правому краю на ПК */
-    align-self: flex-end;
-    margin-bottom: 30px; /* Гарантированный отступ до карточек */
+    &:hover {
+        transform: scale(1.1);
+    }
 
-    @media (max-width: 768px) {
-        /* На мобилках центрируем */
-        align-self: center;
-        padding: 8px 16px;
-        margin-bottom: 5px;
+    img {
+        width: 24px;
+        height: 24px;
     }
 }
 
-/* Обертка, которая берет на себя горизонтальный скролл на мобилках */
+/* Обертка для горизонтального скролла карточек */
 .cardsScrollWrapper {
     width: 100%;
-
+    box-sizing: border-box;
+    
     @media (max-width: 1024px) {
         overflow-x: auto;
-        padding-bottom: 15px; /* Отступ под карточками для красивого отображения скроллбара */
-        -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
-
-        /* Прячем дефолтный уродливый скроллбар в Webkit (Chrome/Safari), если нужно */
+        padding-bottom: 15px;
+        margin: 0 -20px;
+        padding-left: 20px;
+        padding-right: 20px;
+        width: calc(100% + 40px);
+        -webkit-overflow-scrolling: touch;
+        
         &::-webkit-scrollbar {
             height: 6px;
         }
         &::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             border-radius: 10px;
         }
         &::-webkit-scrollbar-thumb {
-            background: #f7e1ca;
+            background: #e2ceb9;
             border-radius: 10px;
         }
     }
@@ -172,46 +198,48 @@
 .compareCardsFlex {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 24px;
     width: 100%;
-    flex-wrap: wrap;
 
     @media (max-width: 1024px) {
-        flex-wrap: nowrap; /* Запрещаем перенос на новую строку */
-        justify-content: flex-start; /* Чтобы скролл шел слева направо */
-        padding: 10px 20px; /* Боковые падинги, чтобы крайние карточки не липли к экрану при скролле */
+        justify-content: flex-start;
+        width: max-content;
     }
-
-    /* Важно: если у ваших ShortCompareCard внутри жестко не задана ширина, 
-       флекс может их сжать. Чтобы этого не было, убедись, что у карточек 
-       стоит фиксированная ширина или flex-shrink: 0; */
+    
+    /* Защита карточек от деформации при сжатии экрана */
     & > div {
-        @media (max-width: 1024px) {
-            flex-shrink: 0;
-        }
+        flex-shrink: 0;
     }
 }
 
 .actionButtons {
-    margin-top: 40px;
+    margin-top: 35px;
     display: flex;
-    gap: 15px;
+    gap: 16px;
     justify-content: center;
-    flex-wrap: wrap;
+    width: 100%;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: center;
+        
+        button {
+            max-width: 100%;
+        }
+    }
 }
 
 .aiBtn {
     width: 100%;
     max-width: 200px;
-    height: 55px;
-    border-radius: 10px;
+    height: 50px;
+    border-radius: 50px;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px;
     border: none;
     color: #5d5349;
     background: linear-gradient(90deg, #a8e0d5, #ffe5d4, #a8e0d5);
@@ -220,63 +248,7 @@
 
     &:hover {
         background-position: right center;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(168, 224, 213, 0.4);
-    }
-
-    &:active {
-        transform: translateY(0);
-    }
-}
-
-.categoriesHeader {
-    margin-left: 70px;
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 24px;
-    width: calc(100% - 70px); /* Компенсируем margin, чтобы не вылетало за экран */
-
-    @media (max-width: 768px) {
-        margin-left: 0;
-        width: 100%;
-        padding: 0 20px;
-        box-sizing: border-box;
-    }
-}
-
-.adminButtons {
-    display: flex;
-    gap: 10px;
-    margin-left: 10px;
-}
-
-/* Классы .arrowBtn объединены в один, логика ховера и размеров исправлена */
-.arrowBtn {
-    margin-left: 10px;
-    margin-top: 4px;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: none;
-    background-color: rgba(255, 255, 255, 0.637);
-    color: #0b5d72;
-    font-size: 20px;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: all 0.2s ease;
-
-    &:hover:not(:disabled) {
-        background-color: rgba(255, 255, 255, 0.836);
-        transform: scale(1.05);
-    }
-
-    &:disabled {
-        opacity: 0.4;
-        cursor: not-allowed;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(168, 224, 213, 0.3);
     }
 }

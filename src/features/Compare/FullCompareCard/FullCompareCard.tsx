@@ -37,7 +37,7 @@ export function FullCompareCard() {
             try {
                 const updatedData = await productService.compare(productIds);
                 setCompareData(updatedData);
-                setIsFav(false); // Сбрасываем иконку при обновлении данных/смене языка
+                setIsFav(false);
                 toast.dismiss(toastId);
             } catch (err) {
                 console.error("Failed to refresh localized data:", err);

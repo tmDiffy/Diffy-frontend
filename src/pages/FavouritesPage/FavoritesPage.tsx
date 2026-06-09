@@ -53,7 +53,6 @@ export function FavoritesPage() {
         }
     };
 
-    // Функция-помощник для отрисовки одного товара
     const renderProduct = (p: any) => (
         <div key={p.id} className={styles["fav-item-mini"]}>
             <div className={styles["fav-img-box"]}>
@@ -101,11 +100,9 @@ export function FavoritesPage() {
                                     ×
                                 </button>
 
-                                {/* Контейнер для центровки товаров */}
                                 <div
                                     className={styles["fav-products-container"]}
                                 >
-                                    {/* Если 2 товара (или меньше) */}
                                     {prods.length <= 2 && (
                                         <div className={styles["row-top"]}>
                                             {prods.map((p, idx) => (
@@ -121,7 +118,6 @@ export function FavoritesPage() {
                                         </div>
                                     )}
 
-                                    {/* Если 3 товара (Рисуем пирамиду) */}
                                     {prods.length === 3 && (
                                         <>
                                             <div className={styles["row-top"]}>
