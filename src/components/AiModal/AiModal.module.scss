@@ -1,27 +1,32 @@
+@use "../../theme/styles/variables" as vars;
+
 .overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     padding: 20px;
+    backdrop-filter: blur(4px); /* Мягкое размытие заднего фона модалки */
 }
 
 .modal {
-    background: #fee8ce;
+    background: #fee8ce; /* Базовый кремовый цвет */
     width: 100%;
-    max-width: 800px;
-    max-height: 85vh;
-    border-radius: 16px;
+    max-width: 700px;
+    max-height: 80vh;
+    border-radius: 20px; /* Скругление под стиль плашек */
     display: flex;
     flex-direction: column;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.3s ease-in-out;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    animation: slideUp 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    border: 1px solid rgba(29, 74, 88, 0.1);
+    overflow: hidden;
 }
 
 .header {
@@ -29,11 +34,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 20px 24px;
-    border-bottom: 1px solid #1d4a58;
+    border-bottom: 1px solid rgba(29, 74, 88, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
 
     h2 {
         margin: 0;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
+        font-weight: 600;
         color: #1d4a58;
     }
 }
@@ -41,48 +48,85 @@
 .closeBtn {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 1.75rem;
     line-height: 1;
     cursor: pointer;
-    color: #888;
-    transition: color 0.2s;
+    color: #72675b;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
 
     &:hover {
         color: #ff4d4f;
+        background-color: rgba(0, 0, 0, 0.05);
     }
 }
 
+/* Контентная область с красивым брендовым скроллбаром */
 .content {
     padding: 24px;
     overflow-y: auto;
     flex-grow: 1;
+    box-sizing: border-box;
+
+    /* Скроллбар под стиль кофейных элементов */
+    &::-webkit-scrollbar {
+        width: 6px; /* Тонкий, аккуратный скролл */
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: rgba(29, 74, 88, 0.03);
+        border-radius: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background: #e2ceb9; /* Пастельный бежевый хайлайт */
+        border-radius: 10px;
+        
+        &:hover {
+            background: #d4bda4;
+        }
+    }
 }
 
 .loader {
     text-align: center;
     font-size: 1.1rem;
     color: #1d4a58;
-    padding: 40px 0;
+    padding: 50px 0;
+    font-weight: 500;
 }
 
 .error {
     color: #ff4d4f;
     text-align: center;
-    padding: 20px 0;
+    padding: 30px 0;
+    font-weight: 500;
 }
 
+/* Стилизация вывода Markdown от AI */
 .markdownBody {
     line-height: 1.6;
-    color: #1d4a58;
+    color: #2c3e43;
+    font-size: 1rem;
 
     h1, h2, h3, h4 {
-        margin-top: 1.5em;
+        margin-top: 1.25em;
         margin-bottom: 0.5em;
         color: #13313a;
+        font-weight: 600;
     }
+
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.1rem; }
 
     p {
         margin-bottom: 1em;
+        opacity: 0.95;
     }
 
     strong {
@@ -90,17 +134,28 @@
         color: #13313a;
     }
 
-    ul {
+    ul, ol {
         padding-left: 20px;
         margin-bottom: 1em;
     }
 
     li {
         margin-bottom: 0.5em;
+        position: relative;
+        
+        &::marker {
+        }
     }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Чуть более плавная и нативная анимация появления */
+@keyframes slideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(15px) scale(0.98); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0) scale(1); 
+    }
 }

@@ -1,74 +1,131 @@
+
 .noData {
     color: white;
     text-align: center;
-    padding: 3rem;
+    padding: 5rem 2rem;
     font-size: 1.2rem;
-    background-color: var(--color-soft_blue);
+    background-color: #1d4a58;
     min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .comparePage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
     background: no-repeat center/cover url("/images/cards-bg.png");
     color: white;
     min-height: 100vh;
-    padding: 8rem 2rem 4rem; // Немного уменьшили padding сверху
-    display: flex;
-    justify-content: center;
+    padding: 140px 20px 60px; /* Синхронизировано с высотой хедера главной */
+
+    @media (max-width: 1024px) {
+        padding-top: 110px;
+    }
 
     @media (max-width: 768px) {
-        padding: 6rem 1rem 2rem;
+        padding-top: 84px;
+        padding-bottom: 40px;
     }
 }
 
-// Контейнер, удерживающий всю структуру сравнения
+/* Круглая плашка для кнопки Избранного — теперь 1 в 1 как на главной */
+.favBtnWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffe8ce;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    align-self: flex-end; 
+    margin-bottom: 24px;
+    width: 44px;
+    height: 44px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+
+    @media (max-width: 1024px) {
+        align-self: center; /* Центрируем на планшетах и мобилках */
+        margin-bottom: 20px;
+    }
+}
+
+.favBtnMain {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    img {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* Основной контейнер таблицы сравнения */
 .scrollWrapper {
     width: 100%;
     max-width: 1200px;
-    background-color: #1d4a58c5;
+    background-color: rgba(29, 74, 88, 0.75); /* Полупрозрачный красивый фон */
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     padding: 2rem;
-    backdrop-filter: blur(10px);
-    overflow-x: auto;
+    backdrop-filter: blur(16px);
+    overflow-x: auto; /* Включает горизонтальный скролл */
     -webkit-overflow-scrolling: touch; 
+    box-sizing: border-box;
 
+    /* Стилизация скроллбара под стиль сайта */
     &::-webkit-scrollbar {
         height: 6px;
     }
     &::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.02);
-        border-radius: 3px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 10px;
     }
     &::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.15);
-        border-radius: 3px;
-        &:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
+        background: #e2ceb9;
+        border-radius: 10px;
     }
 
     @media (max-width: 768px) {
         padding: 1rem;
+        /* Выносим скролл в края экрана для мобилок, чтобы таблица не зажималась */
+        margin: 0 -10px; 
+        width: calc(100% + 20px);
+        border-radius: 12px;
     }
 }
 
-// Шапка с товарами
+/* Шапка таблицы с товарами */
 .cards {
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 .description {
     display: flex;
-    gap: 1.5rem;
-    // Резервируем пустое место слева на десктопе, где будет находиться название характеристики в строках ниже
-    padding-left: 200px; 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 20px;
+    padding-left: 200px; /* Четкое место слева под название характеристики */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 2rem;
-    min-width: 750px; // Защита от сжатия колонок товаров
+    min-width: 800px; /* Гарантия того, что таблица не сожмется на мобилках */
+    box-sizing: border-box;
 
     @media (max-width: 768px) {
-        padding-left: 0; // На мобилках выстраиваем в ряд без отступа
-        min-width: 600px;
+        min-width: 700px;
+        padding-left: 160px; /* Чуть уменьшаем левый отступ на мелких экранах */
+        gap: 12px;
     }
 }
 
@@ -81,29 +138,41 @@
     text-align: center;
 
     h3 {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 600;
-        margin-top: 1.2rem;
+        margin-top: 1rem;
         color: white;
         line-height: 1.4;
+        /* Ограничиваем длинные названия тремя точками, чтобы не ломали высоту */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 }
 
 .cardImageWrapper {
     width: 100%;
-    max-width: 160px;
-    height: 200px;
+    max-width: 1400px; /* Убираем конфликт с десктопной макс-шириной */
+    aspect-ratio: 4 / 5; /* Автоматическое удержание пропорций */
+    height: 180px;
     background-color: white;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     padding: 1rem;
     transition: transform 0.2s ease;
+    box-sizing: border-box;
 
     &:hover {
-        transform: translateY(-4px);
+        transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+        height: 140px;
+        padding: 0.5rem;
     }
 }
 
@@ -120,49 +189,45 @@
     border-radius: 8px;
 }
 
-// Секции характеристик
+/* Блок контента */
 .fullCard {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 2rem;
 }
 
 .section {
     display: flex;
     flex-direction: column;
-    gap: 0.25rem; // Минимальный зазор между строками для монолитного вида
+    gap: 6px;
 }
 
 .mainCharHeader {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     
     h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 600;
         letter-spacing: 0.5px;
-        color: var(--color-coffee, #fce5cc);
+        color: #fce5cc;
         text-transform: uppercase;
-        opacity: 0.9;
-        padding-bottom: 0.5rem;
+        opacity: 0.95;
+        padding-bottom: 0.25rem;
     }
 }
 
-// Строка таблицы — превращена в полноценный флекс-ряд с фиксацией заголовка
+/* Строка таблицы — жестко сохраняет структуру строки даже на смартфонах */
 .charRow {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    padding: 0.75rem 1rem;
-    border-radius: 8px;
-    min-width: 750px;
-    transition: background-color 0.15s ease;
-
-    &:nth-child(even) {
-        background-color: rgba(255, 255, 255, 0.01);
-    }
+    gap: 20px;
+    padding: 0.5rem 0;
+    min-width: 800px; /* Строка ВСЕГДА равна ширине шапки товаров */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    position: relative;
 
     &:hover {
-        background-color: rgba(255, 255, 255, 0.03);
+        background-color: rgba(255, 255, 255, 0.02);
         
         .charHeader {
             color: white;
@@ -170,17 +235,12 @@
     }
 
     @media (max-width: 768px) {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.5rem;
-        min-width: 600px;
-        padding: 1rem 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        background-color: transparent !important;
+        min-width: 700px;
+        gap: 12px;
     }
 }
 
-// Левая колонка — название характеристики
+/* Фиксированная левая колонка заголовка */
 .charHeader {
     width: 200px;
     min-width: 200px;
@@ -190,156 +250,105 @@
     font-weight: 500;
     margin: 0;
     line-height: 1.3;
+    padding-right: 10px;
+    box-sizing: border-box;
 
     @media (max-width: 768px) {
-        width: 100%;
-        min-width: 0;
-        text-align: center;
-        color: var(--color-coffee, #fce5cc);
-        font-weight: 600;
+        width: 160px;
+        min-width: 160px;
+        font-size: 0.85rem;
     }
 }
 
-// Правая часть строки — контейнер для значений товаров
+/* Правая контентная часть строки со значениями */
 .char {
     flex: 1;
     display: flex;
-    gap: 1.5rem;
+    gap: 20px;
 
-    > * {
+    @media (max-width: 768px) {
+        gap: 12px;
+    }
+
+    /* Защищаем ячейки от неконтролируемого сжатия */
+    & > * {
         flex: 1;
         min-width: 0;
     }
 }
 
-// Элемент значения характеристики
+/* Сами ячейки со значениями */
 .charValue {
-    background-color: rgba(0, 0, 0, 0.15);
-    padding: 0.85rem 1rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.75rem 1rem;
     border-radius: 8px;
     text-align: center;
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.9);
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 48px;
+    min-height: 44px;
     border: 1px solid transparent;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
     margin: 0;
+    box-sizing: border-box;
 
-    // Стили для лучшей характеристики (более мягкие цвета, не режущие глаз)
     &.best {
         color: #81c784; 
-        background-color: rgba(76, 175, 80, 0.08);
-        box-shadow: inset 0 0 12px rgba(76, 175, 80, 0.05);
+        background-color: rgba(76, 175, 80, 0.12);
+        border-color: rgba(76, 175, 80, 0.2);
         font-weight: 600;
     }
 
-    // Стили для худшей характеристики
     &.worst {
         color: #ff8a80; 
-        background-color: rgba(255, 82, 82, 0.158);
-        box-shadow: inset 0 0 12px rgba(255, 82, 82, 0.04);
+        background-color: rgba(255, 82, 82, 0.15);
+        border-color: rgba(255, 82, 82, 0.2);
         font-weight: 600;
+    }
 
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+        font-size: 0.85rem;
     }
 }
 
+/* Кнопка AI внизу страницы */
 .aiBtnWrapper {
     display: flex;
     justify-content: center;
     padding: 3rem 0 1rem;
+    width: 100%;
 }
 
 .aiBtnBig {
-    padding: 1rem 2.5rem;
-    border-radius: 12px;
-    font-size: 1rem;
+    width: 100%;
+    max-width: 240px;
+    height: 50px;
+    border-radius: 50px; /* Кнопка-пилюля как на главной */
+    font-size: 16px;
     font-weight: 600;
     cursor: pointer;
     border: none;
     color: #4a4138;
     letter-spacing: 0.3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     
-    background: linear-gradient(90deg, #A8E0D5, #FFE5D4, #A8E0D5);
+    background: linear-gradient(90deg, #a8e0d5, #ffe5d4, #a8e0d5);
     background-size: 200% auto;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.4s ease-in-out;
 
     &:hover {
         background-position: right center;
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(168, 224, 213, 0.35);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 15px rgba(168, 224, 213, 0.3);
     }
 
     &:active {
         transform: translateY(0);
     }
-}
-.comparePage {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-/* Стили плашки для кнопки Избранного */
-.favBtnWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ffe8ce;
-    padding: 12px 24px;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-    
-    /* Выравниваем в правый край на ПК */
-    align-self: flex-end; 
-    margin-bottom: 24px;
-    flex-shrink: 0;
-
-    @media (max-width: 768px) {
-        /* Центрируем на телефонах */
-        align-self: center; 
-        padding: 8px 16px;
-        margin-bottom: 16px;
-        margin-top: 30px; /* Добавляем отступ сверху для разделения от карточек */
-    }
-}
-
-/* Стили самой кнопки внутри плашки */
-.favBtnMain {
-    all: unset;
-    cursor: pointer;
-    z-index: 10;
-    transition: transform 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-        transform: scale(1.1);
-        background: none !important;
-    }
-
-    img {
-        width: 40px;
-        height: 40px;
-        
-        @media (max-width: 768px) {
-            width: 32px;
-            height: 32px;
-        }
-    }
-}
-
-/* Ваш существующий scrollWrapper */
-.scrollWrapper {
-    width: 100%;
-    // ваши остальные стили для scrollWrapper (например, overflow-x: auto)
 }

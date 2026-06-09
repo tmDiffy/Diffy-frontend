@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import styles from "./AiModal.module.scss";
 import { productService } from "../../api/services/product.service";
+import { t } from "i18next";
 
 type Props = {
     isOpen: boolean;
@@ -24,7 +25,7 @@ export default function AiModal({ isOpen, onClose, productIds }: Props) {
                 const data = await productService.getAiSummary(productIds);
                 setSummary(data.summary);
             } catch (err) {
-                setError("Не удалось получить ответ от ИИ. Попробуйте позже.");
+                setError(t("AI.errorMessage"));
             } finally {
                 setIsLoading(false);
             }
@@ -39,7 +40,7 @@ export default function AiModal({ isOpen, onClose, productIds }: Props) {
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.header}>
-                    <h2>ИИ Анализ товаров</h2>
+                    <h2>{t("AI.modalTitle")}</h2>
                     <button className={styles.closeBtn} onClick={onClose}>
                         &times;
                     </button>
@@ -47,9 +48,7 @@ export default function AiModal({ isOpen, onClose, productIds }: Props) {
 
                 <div className={styles.content}>
                     {isLoading && (
-                        <div className={styles.loader}>
-                            ИИ анализирует товары, подождите немного...
-                        </div>
+                        <div className={styles.loader}>{t("AI.loading")}</div>
                     )}
 
                     {error && <div className={styles.error}>{error}</div>}
